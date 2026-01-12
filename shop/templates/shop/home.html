@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home | Pashupatinath Marketing{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero">
+    <div class="container hero-flex">
+
+        <!-- Category Sidebar -->
+        <aside class="categories">
+            <h3>Categories</h3>
+            <ul>
+                <li>Cement & Concrete</li>
+                <li>TMT Steel & Rods</li>
+                <li>Sand & Aggregates</li>
+                <li>Bricks & Blocks</li>
+                <li>Plumbing Materials</li>
+                <li>Electrical Fittings</li>
+                <li>Paints & Chemicals</li>
+                <li>Tiles & Flooring</li>
+                <li>Hardware Tools</li>
+            </ul>
+        </aside>
+
+        <!-- Hero Banner -->
+        <div class="hero-content">
+            <h1>Wholesale Construction Materials</h1>
+            <p>Quality materials for strong and durable construction</p>
+            <a href="{% url 'products' %}" class="btn-primary">Explore Products</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="features">
+    <div class="container feature-grid">
+
+        <div class="feature-box">
+            <i class="fa fa-truck"></i>
+            <h4>Fast Delivery</h4>
+            <p>On-time delivery for bulk orders</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa fa-handshake"></i>
+            <h4>Wholesale Prices</h4>
+            <p>Best market price for contractors</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa fa-shield"></i>
+            <h4>Trusted Quality</h4>
+            <p>Verified construction-grade materials</p>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
