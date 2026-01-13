@@ -215,3 +215,32 @@ ul {
     padding: 15px;
     margin-top: 30px;
 }
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Bottom-right hero image */
+.hero-image {
+    position: absolute;
+    bottom: -60px;
+    right: 0;
+    width: 400px;
+    max-width: 45%;
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+/* Responsive (mobile) */
+@media (max-width: 768px) {
+    .hero-image {
+        width: 220px;
+        bottom: -5px;
+        opacity: 0.8;
+    }
+}
