@@ -17,15 +17,15 @@
         <aside class="categories">
             <h3>Categories</h3>
             <ul>
-                <li>Cement & Concrete</li>
-                <li>TMT Steel & Rods</li>
-                <li>Sand & Aggregates</li>
-                <li>Bricks & Blocks</li>
-                <li>Plumbing Materials</li>
-                <li>Electrical Fittings</li>
-                <li>Paints & Chemicals</li>
-                <li>Tiles & Flooring</li>
-                <li>Hardware Tools</li>
+                <li><a href="{% url 'products' %}" > Cement & Concrete </a></li>
+                <li><a href="{% url 'products' %}" > TMT Steel & Rods </a></li>
+                <li><a href="{% url 'products' %}" > Sand & Aggregates </a></li>
+                <li><a href="{% url 'products' %}" > Bricks & Blocks </a></li>
+                <li><a href="{% url 'products' %}" > Plumbing Materials </a></li>
+                <li><a href="{% url 'products' %}" > Electrical Fittings </a></li>
+                <li><a href="{% url 'products' %}" > Paints & Chemicals </a></li>
+                <li><a href="{% url 'products' %}" > Tiles & Flooring </a></li>
+                <li><a href="{% url 'products' %}" > Hardware Tools </a></li>
             </ul>
         </aside>
 
@@ -34,6 +34,11 @@
             <h1>Wholesale Construction Materials</h1>
             <p>Quality materials for strong and durable construction</p>
             <a href="{% url 'products' %}" class="btn-primary">Explore Products</a>
+
+            <!-- Hero Image -->
+            <img src="{% static 'images/product/worker1.png' %}" 
+                alt="Construction Materials"
+                class="hero-image">
         </div>
 
     </div>
