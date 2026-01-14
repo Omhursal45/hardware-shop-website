@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}product | Pashupatinath Marketing{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/products.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/home.css' %}"> -->
+{% endblock %}
+
+{% block content %}
+<!-- PRODUCTS SECTION -->
+<section class="features">
+    <div class="container">
+        <h2 style="margin-bottom:20px;">Wholesale Construction Products</h2>
+
+        <div class="feature-grid">
+
+            <!-- PRODUCT 1 -->
+            <div class="feature-box">
+                <img src="{% static 'images/product/cement.jpg' %}" width="100%">
+                <h3>Cement (50kg)</h3>
+                <p>High strength cement for construction work.</p>
+                <p><strong>Wholesale Price</strong></p>
+                <a href="{% url 'enquiry' %}" class="btn-primary">Get Bulk Price</a>
+            </div>
+
+            <!-- PRODUCT 2 -->
+            <div class="feature-box">
+                <img src="{% static 'images/product/steel.jpg' %}" width="100%">
+                <h3>TMT Steel Bars</h3>
+                <p>Best quality steel for buildings.</p>
+                <p><strong>Bulk Supply Available</strong></p>
+                <a href="{% url 'enquiry' %}" class="btn-primary">Get Quote</a>
+            </div>
+
+            <!-- PRODUCT 3 -->
+            <div class="feature-box">
+                <img src="{% static 'images/product/bricks.jpg' %}" width="100%">
+                <h3>Red Bricks</h3>
+                <p>Strong & durable bricks.</p>
+                <p><strong>Truck Load Orders</strong></p>
+                <a href="{% url 'enquiry' %}" class="btn-primary">Contact Now</a>
+            </div>
+
+            <!-- PRODUCT 4 -->
+            <div class="feature-box">
+                <img src="{% static 'images/product/sand.jpg' %}" width="100%">
+                <h3>Sand & Aggregate</h3>
+                <p>River sand & crushed aggregate.</p>
+                <p><strong>Wholesale Supply</strong></p>
+                <a href="{% url 'enquiry' %}" class="btn-primary">Get Price</a>
+            </div>
+
+            <!-- PRODUCT 5 -->
+            <div class="feature-box">
+                <img src="{% static 'images/product/pipes.jpg' %}" width="100%">
+                <h3>PVC Pipes</h3>
+                <p>ISI certified plumbing pipes.</p>
+                <p><strong>Bulk Orders</strong></p>
+                <a href="{% url 'enquiry' %}" class="btn-primary">Enquire</a>
+            </div>
+
+            <!-- PRODUCT 6 -->
+            <div class="feature-box">
+                <img src="{% static 'images/product/wires.jpg' %}" width="100%">
+                <h3>Electrical Wires</h3>
+                <p>Safe & high-quality wiring.</p>
+                <p><strong>Wholesale Rates</strong></p>
+                <a href="{% url 'enquiry' %}" class="btn-primary">Get Quote</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
