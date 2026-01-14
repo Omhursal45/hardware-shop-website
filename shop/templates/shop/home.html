@@ -4,6 +4,7 @@
 {% block title %}Home | Pashupatinath Marketing{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
@@ -13,32 +14,29 @@
 <section class="hero">
     <div class="container hero-flex">
 
-        <!-- Category Sidebar -->
+        <!-- Categories -->
         <aside class="categories">
-            <h3>Categories</h3>
+            <h3>Product Categories</h3>
             <ul>
-                <li><a href="{% url 'products' %}" > Cement & Concrete </a></li>
-                <li><a href="{% url 'products' %}" > TMT Steel & Rods </a></li>
-                <li><a href="{% url 'products' %}" > Sand & Aggregates </a></li>
-                <li><a href="{% url 'products' %}" > Bricks & Blocks </a></li>
-                <li><a href="{% url 'products' %}" > Plumbing Materials </a></li>
-                <li><a href="{% url 'products' %}" > Electrical Fittings </a></li>
-                <li><a href="{% url 'products' %}" > Paints & Chemicals </a></li>
-                <li><a href="{% url 'products' %}" > Tiles & Flooring </a></li>
-                <li><a href="{% url 'products' %}" > Hardware Tools </a></li>
+                <li><a href="{% url 'products' %}">Cement & Concrete</a></li>
+                <li><a href="{% url 'products' %}">TMT Steel & Rods</a></li>
+                <li><a href="{% url 'products' %}">Sand & Aggregates</a></li>
+                <li><a href="{% url 'products' %}">Bricks & Blocks</a></li>
+                <li><a href="{% url 'products' %}">Plumbing Materials</a></li>
+                <li><a href="{% url 'products' %}">Electrical Fittings</a></li>
+                <li><a href="{% url 'products' %}">Paints & Chemicals</a></li>
+                <li><a href="{% url 'products' %}">Tiles & Flooring</a></li>
+                <li><a href="{% url 'products' %}">Hardware Tools</a></li>
             </ul>
         </aside>
 
-        <!-- Hero Banner -->
+        <!-- Hero Content -->
         <div class="hero-content">
             <h1>Wholesale Construction Materials</h1>
-            <p>Quality materials for strong and durable construction</p>
+            <p>Trusted supplier for contractors, builders & developers</p>
             <a href="{% url 'products' %}" class="btn-primary">Explore Products</a>
 
-            <!-- Hero Image -->
-            <img src="{% static 'images/product/worker1.png' %}" 
-                alt="Construction Materials"
-                class="hero-image">
+            <img src="{% static 'images/product/worker1.png' %}" class="hero-image" alt="Construction">
         </div>
 
     </div>
@@ -51,13 +49,13 @@
         <div class="feature-box">
             <i class="fa fa-truck"></i>
             <h4>Fast Delivery</h4>
-            <p>On-time delivery for bulk orders</p>
+            <p>On-time delivery for bulk & urgent orders</p>
         </div>
 
         <div class="feature-box">
             <i class="fa fa-handshake"></i>
             <h4>Wholesale Prices</h4>
-            <p>Best market price for contractors</p>
+            <p>Best market rates for contractors & builders</p>
         </div>
 
         <div class="feature-box">
@@ -66,6 +64,78 @@
             <p>Verified construction-grade materials</p>
         </div>
 
+    </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about-section">
+    <div class="container about-flex">
+
+        <div class="about-text">
+            <h2>About Pashupatinath Marketing</h2>
+            <p>
+                Pashupatinath Marketing is a reliable wholesale supplier of construction materials,
+                serving contractors, builders, and developers with quality-assured products.
+            </p>
+            <p>
+                With years of experience, we guarantee competitive pricing, timely delivery,
+                and genuine materials for every project.
+            </p>
+        </div>
+
+        <div class="about-image">
+            <img src="{% static 'images/product/worker1.' %}" alt="About Us">
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+<section class="products-overview">
+    <div class="container">
+        <h2>Our Product Categories</h2>
+
+        <div class="product-grid">
+            <div class="product-item">Cement & Concrete</div>
+            <div class="product-item">TMT Steel & Rods</div>
+            <div class="product-item">Bricks & Blocks</div>
+            <div class="product-item">Sand & Aggregates</div>
+            <div class="product-item">Plumbing Materials</div>
+            <div class="product-item">Electrical Fittings</div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services">
+    <div class="container">
+        <h2>Our Services</h2>
+
+        <div class="service-grid">
+            <div class="service-box">
+                <h4>Bulk Supply</h4>
+                <p>Wholesale supply for large-scale construction projects.</p>
+            </div>
+
+            <div class="service-box">
+                <h4>Fast Delivery</h4>
+                <p>Reliable delivery directly to your construction site.</p>
+            </div>
+
+            <div class="service-box">
+                <h4>Price Quotation</h4>
+                <p>Transparent & quick bulk price quotations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Need Bulk Construction Materials?</h2>
+        <p>Contact us today for the best wholesale prices.</p>
+        <a href="{% url 'enquiry' %}" class="btn-primary">Request Bulk Quote</a>
     </div>
 </section>
 
