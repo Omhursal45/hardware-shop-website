@@ -1,75 +1,73 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}product | Pashupatinath Marketing{% endblock %}
+
+{% block title %}Material Catalog | Pashupatinath Marketing{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
-    <!-- <link rel="stylesheet" href="{% static 'css/home.css' %}"> -->
 {% endblock %}
 
 {% block content %}
-<!-- PRODUCTS SECTION -->
-<section class="features">
-    <div class="container">
-        <h2 style="margin-bottom:20px;">Wholesale Construction Products</h2>
+<section class="catalog-wrapper">
+    <div class="container catalog-flex">
+        
+        <aside class="side-nav">
+            <div class="side-nav-header">
+                <i class="fa-solid fa-list-ul"></i>
+                <span>Our Inventory</span>
+            </div>
+            <ul class="side-menu">
+                <li><a href="#" class="active"><i class="fa-solid fa-hard-hat"></i> Cement & Concrete</a></li>
+                <li><a href="#"><i class="fa-solid fa-layer-group"></i> TMT Steel & Rods</a></li>
+                <li><a href="#"><i class="fa-solid fa-mountain"></i> Sand & Aggregates</a></li>
+                <li><a href="#"><i class="fa-solid fa-cubes"></i> Bricks & Blocks</a></li>
+                <li><a href="#"><i class="fa-solid fa-faucet"></i> Plumbing Materials</a></li>
+                <li><a href="#"><i class="fa-solid fa-bolt"></i> Electrical Fittings</a></li>
+                <li><a href="#"><i class="fa-solid fa-paint-roller"></i> Paints & Chemicals</a></li>
+            </ul>
+        </aside>
 
-        <div class="feature-grid">
-
-            <!-- PRODUCT 1 -->
-            <div class="feature-box">
-                <img src="{% static 'images/product/cement.jpg' %}" width="100%">
-                <h3>Cement (50kg)</h3>
-                <p>High strength cement for construction work.</p>
-                <p><strong>Wholesale Price</strong></p>
-                <a href="{% url 'enquiry' %}" class="btn-primary">Get Bulk Price</a>
+        <div class="catalog-main">
+            <div class="catalog-header-card">
+                <span class="sub-tag">Wholesale Inventory</span>
+                <h2>Construction <span class="highlight">Material Catalog</span></h2>
+                <p>Sourcing directly from top brands to ensure structural integrity and cost-efficiency.</p>
             </div>
 
-            <!-- PRODUCT 2 -->
-            <div class="feature-box">
-                <img src="{% static 'images/product/steel.jpg' %}" width="100%">
-                <h3>TMT Steel Bars</h3>
-                <p>Best quality steel for buildings.</p>
-                <p><strong>Bulk Supply Available</strong></p>
-                <a href="{% url 'enquiry' %}" class="btn-primary">Get Quote</a>
-            </div>
+            <div class="products-grid">
+                <div class="material-card">
+                    <div class="material-img">
+                        <img src="{% static 'images/product/cement.jpg' %}" alt="Cement">
+                        <span class="material-badge">Bulk Rates</span>
+                    </div>
+                    <div class="material-body">
+                        <span class="material-cat">Cement</span>
+                        <h3>Premium OPC 53 Grade</h3>
+                        <p>High-strength cement suitable for all RCC structures and load-bearing walls.</p>
+                        <div class="material-footer">
+                            <span class="price-info">Wholesale Only</span>
+                            <a href="{% url 'enquiry' %}" class="btn-action-sm">Get Quote</a>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- PRODUCT 3 -->
-            <div class="feature-box">
-                <img src="{% static 'images/product/bricks.jpg' %}" width="100%">
-                <h3>Red Bricks</h3>
-                <p>Strong & durable bricks.</p>
-                <p><strong>Truck Load Orders</strong></p>
-                <a href="{% url 'enquiry' %}" class="btn-primary">Contact Now</a>
+                <div class="material-card">
+                    <div class="material-img">
+                        <img src="{% static 'images/product/steel.jpg' %}" alt="Steel">
+                        <span class="material-badge">Certified</span>
+                    </div>
+                    <div class="material-body">
+                        <span class="material-cat">TMT Steel</span>
+                        <h3>FE 550D TMT Bars</h3>
+                        <p>Superior earthquake-resistant rods with high ductility and bonding strength.</p>
+                        <div class="material-footer">
+                            <span class="price-info">Per Ton</span>
+                            <a href="{% url 'enquiry' %}" class="btn-action-sm">Get Quote</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- PRODUCT 4 -->
-            <div class="feature-box">
-                <img src="{% static 'images/product/sand.jpg' %}" width="100%">
-                <h3>Sand & Aggregate</h3>
-                <p>River sand & crushed aggregate.</p>
-                <p><strong>Wholesale Supply</strong></p>
-                <a href="{% url 'enquiry' %}" class="btn-primary">Get Price</a>
-            </div>
-
-            <!-- PRODUCT 5 -->
-            <div class="feature-box">
-                <img src="{% static 'images/product/pipes.jpg' %}" width="100%">
-                <h3>PVC Pipes</h3>
-                <p>ISI certified plumbing pipes.</p>
-                <p><strong>Bulk Orders</strong></p>
-                <a href="{% url 'enquiry' %}" class="btn-primary">Enquire</a>
-            </div>
-
-            <!-- PRODUCT 6 -->
-            <div class="feature-box">
-                <img src="{% static 'images/product/wires.jpg' %}" width="100%">
-                <h3>Electrical Wires</h3>
-                <p>Safe & high-quality wiring.</p>
-                <p><strong>Wholesale Rates</strong></p>
-                <a href="{% url 'enquiry' %}" class="btn-primary">Get Quote</a>
-            </div>
-
         </div>
     </div>
 </section>
-
 {% endblock %}
