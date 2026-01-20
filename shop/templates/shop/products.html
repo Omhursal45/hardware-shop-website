@@ -4,70 +4,72 @@
 {% block title %}Material Catalog | Pashupatinath Marketing{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/products.css' %}">
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
 {% block content %}
 <section class="catalog-wrapper">
     <div class="container catalog-flex">
         
+        <!-- SIDE BAR -->
         <aside class="side-nav">
             <div class="side-nav-header">
                 <i class="fa-solid fa-list-ul"></i>
                 <span>Our Inventory</span>
             </div>
             <ul class="side-menu">
-                <li><a href="#" class="active"><i class="fa-solid fa-hard-hat"></i> Cement & Concrete</a></li>
-                <li><a href="#"><i class="fa-solid fa-layer-group"></i> TMT Steel & Rods</a></li>
-                <li><a href="#"><i class="fa-solid fa-mountain"></i> Sand & Aggregates</a></li>
-                <li><a href="#"><i class="fa-solid fa-cubes"></i> Bricks & Blocks</a></li>
-                <li><a href="#"><i class="fa-solid fa-faucet"></i> Plumbing Materials</a></li>
-                <li><a href="#"><i class="fa-solid fa-bolt"></i> Electrical Fittings</a></li>
-                <li><a href="#"><i class="fa-solid fa-paint-roller"></i> Paints & Chemicals</a></li>
+                {% for category in categories %}
+                <li>
+                    <a href="?category={{ category.id }}">
+                        <i class="fa-solid fa-layer-group"></i>
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% endfor %}
             </ul>
         </aside>
 
+        <!-- MAIN CONTENT -->
         <div class="catalog-main">
             <div class="catalog-header-card">
                 <span class="sub-tag">Wholesale Inventory</span>
                 <h2>Construction <span class="highlight">Material Catalog</span></h2>
-                <p>Sourcing directly from top brands to ensure structural integrity and cost-efficiency.</p>
+                <p>
+                    Sourcing directly from top brands to ensure structural integrity
+                    and cost-efficiency.
+                </p>
             </div>
 
             <div class="products-grid">
-                <div class="material-card">
-                    <div class="material-img">
-                        <img src="{% static 'images/product/cement.jpg' %}" alt="Cement">
-                        <span class="material-badge">Bulk Rates</span>
-                    </div>
+                {% for product in products %}
+               <div class="material-card">
+    <div class="material-img">
+        <a href="{% url 'product_detail' product.slug %}">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </a>
+        <span class="material-badge">Bulk Rates</span>
+    </div>
+
+
                     <div class="material-body">
-                        <span class="material-cat">Cement</span>
-                        <h3>Premium OPC 53 Grade</h3>
-                        <p>High-strength cement suitable for all RCC structures and load-bearing walls.</p>
+                        <span class="material-cat">{{ product.category.name }}</span>
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description }}</p>
+
                         <div class="material-footer">
                             <span class="price-info">Wholesale Only</span>
-                            <a href="{% url 'enquiry' %}" class="btn-action-sm">Get Quote</a>
+                            <a href="{% url 'enquiry' %}?product={{ product.id }}" class="btn-action-sm">
+                                Get Quote
+                            </a>
                         </div>
                     </div>
                 </div>
-
-                <div class="material-card">
-                    <div class="material-img">
-                        <img src="{% static 'images/product/steel.jpg' %}" alt="Steel">
-                        <span class="material-badge">Certified</span>
-                    </div>
-                    <div class="material-body">
-                        <span class="material-cat">TMT Steel</span>
-                        <h3>FE 550D TMT Bars</h3>
-                        <p>Superior earthquake-resistant rods with high ductility and bonding strength.</p>
-                        <div class="material-footer">
-                            <span class="price-info">Per Ton</span>
-                            <a href="{% url 'enquiry' %}" class="btn-action-sm">Get Quote</a>
-                        </div>
-                    </div>
-                </div>
+                {% empty %}
+                <p>No products available.</p>
+                {% endfor %}
             </div>
         </div>
+
     </div>
 </section>
 {% endblock %}
