@@ -4,80 +4,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Pashupatinath Marketing{% endblock %}</title>
+    <title>{% block title %}Pashupatinath Marketing | Wholesale Construction Materials{% endblock %}</title>
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-<!-- ================= TOP BAR ================= -->
 <div class="top-bar">
-    <div class="container">
-        <span>📞 Call: +91 9XXXXXXXXX</span>
-        <span>Wholesale Construction Materials Supplier</span>
+    <div class="container top-bar-flex">
+        <div class="top-info">
+            <span><i class="fa-solid fa-location-dot"></i> <span class="hide-mobile">Delivering Across India</span><span class="show-mobile">India</span></span>
+            <span><i class="fa-solid fa-clock"></i> 9 AM - 7 PM</span>
+        </div>
+        <div class="top-social">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
     </div>
 </div>
 
-<!-- ================= HEADER ================= -->
 <header class="header">
     <div class="container header-flex">
-
         <div class="logo">
-            <h2>Pashupatinath <span>Marketing</span></h2>
+            <a href="{% url 'home' %}">
+                <h1>Pashupatinath<span>Marketing</span></h1>
+            </a>
         </div>
 
-        <div class="search-box">
-            <input type="text" placeholder="Search construction materials...">
-            <button><i class="fa fa-search"></i></button>
+        <div class="header-search">
+            <form action="{% url 'products' %}" method="GET">
+                <input type="text" name="q" placeholder="Search Materials...">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
         </div>
 
-        <div class="header-contact">
-            <i class="fa fa-phone"></i>
-            <span>+91 9XXXXXXXXX</span>
+        <div class="header-support hide-tablet">
+            <div class="support-icon"><i class="fa-solid fa-headset"></i></div>
+            <div class="support-text">
+                <small>Expert Assistance</small>
+                <strong>+91 9XXXXXXXXX</strong>
+            </div>
         </div>
-
     </div>
 </header>
 
-<!-- ================= NAVBAR ================= -->
 <nav class="navbar">
     <div class="container nav-flex">
-        <ul>
-            <li><a href="{% url 'home' %}"
-                   class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                   Home</a></li>
+        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i> <span>Menu</span>
+        </button>
 
-            <li><a href="{% url 'products' %}"
-                   class="{% if request.resolver_match.url_name == 'products' %}active{% endif %}">
-                   Products</a></li>
-
-            <li><a href="{% url 'contact' %}"
-                   class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
-                   Contact</a></li>
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+            <li><a href="{% url 'products' %}" class="{% if request.resolver_match.url_name == 'products' %}active{% endif %}">Products</a></li>
+            <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About Us</a></li>
+            <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
         </ul>
 
-        <a href="{% url 'contact' %}" class="btn-quote">Request Bulk Quote</a>
+        <div class="nav-cta">
+            <a href="{% url 'contact' %}" class="btn-quote-main">
+                <i class="fa-solid fa-file-invoice-dollar"></i> <span class="hide-mobile">Bulk Quote</span>
+                <span class="show-mobile">Quote</span>
+            </a>
+        </div>
     </div>
 </nav>
 
-<!-- ================= PAGE CONTENT ================= -->
-<main>
-    {% block content %}
-    {% endblock %}
+<main class="main-content">
+    {% block content %}{% endblock %}
 </main>
 
-<!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <div class="container">
-        <p>© 2026 Pashupatinath Marketing. All Rights Reserved.</p>
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <h3>Pashupatinath<span>Marketing</span></h3>
+            <p>Your premier wholesale partner for high-quality construction materials. Building the foundations of tomorrow.</p>
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'products' %}">Products</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-contact">
+            <h4>Get In Touch</h4>
+            <p><i class="fa-solid fa-envelope"></i> info@pashupatinath.com</p>
+            <p><i class="fa-solid fa-phone"></i> +91 9XXXXXXXXX</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Pashupatinath Marketing. All Rights Reserved.</p>
+        </div>
     </div>
 </footer>
+
+{% block extra_js %}
+<script src="{% static 'js/base.js' %}"></script>
+{% endblock %}
 
 </body>
 </html>
