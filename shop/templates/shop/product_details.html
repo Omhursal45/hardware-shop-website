@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Pashupatinath Marketing{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="product-detail-wrapper">
+    <div class="container product-detail-grid">
+
+        <!-- IMAGE -->
+        <div class="product-image-box">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <!-- DETAILS -->
+        <div class="product-info-box">
+            <span class="product-category">
+                {{ product.category.name }}
+            </span>
+
+            <h2 class="product-title">{{ product.name }}</h2>
+
+            <p class="product-description">
+                {{ product.description }}
+            </p>
+
+            <div class="bulk-info">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Bulk purchase only · Wholesale pricing</span>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{% url 'enquiry' %}?product={{ product.name }}"
+                   class="btn btn-quote">
+                    Request Bulk Quote
+                </a>
+
+                <a href="https://wa.me/91XXXXXXXXXX?text=Hello,%20I%20want%20bulk%20pricing%20for%20{{ product.name }}"
+                   target="_blank"
+                   class="btn btn-whatsapp">
+                    WhatsApp Enquiry
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/product_detail.js' %}"></script>
+{% endblock %}
