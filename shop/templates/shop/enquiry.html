@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bulk Enquiry{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enquiry.css' %}">
+{% endblock %}
+
+{% block content %}
+<aside>
+<div class="enquiry-wrapper">
+    <div class="enquiry-card">
+        <h2>Bulk Enquiry</h2>
+        <p class="subtitle">
+            Request pricing and availability for bulk purchase
+        </p>
+
+        <form method="post" id="enquiryForm">
+            {% csrf_token %}
+
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+            <div class="form-group">
+                <label>Product</label>
+                <input type="text" value="{{ product.name }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email (optional)</label>
+                <input type="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label>Required Quantity *</label>
+                <input type="text" name="quantity" placeholder="e.g. 500 units / 10 tons" required>
+            </div>
+
+            <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" rows="4" placeholder="Any specific requirements..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Enquiry
+            </button>
+        </form>
+    </div>
+</div>
+</aside>
+{% block extra_js %}
+<script src="{% static 'js/enquiry.js' %}"></script>
+{% endblock %}
+{% endblock %}
