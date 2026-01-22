@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product
+from .models import Category, Product, Enquiry
 
 
 @admin.register(Category)
@@ -14,3 +14,8 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
 
+@admin.register(Enquiry)
+class EnquiryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'product', 'phone', 'quantity', 'created_at')
+    search_fields = ('name', 'phone', 'product__name')
+    list_filter = ('created_at',)
