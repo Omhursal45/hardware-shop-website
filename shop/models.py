@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.text import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -8,9 +8,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-
-from django.utils.text import slugify
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
@@ -28,3 +25,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Enquiry(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField(blank=True)
+    quantity = models.CharField(max_length=50)
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.name} : {self.product.name}"
