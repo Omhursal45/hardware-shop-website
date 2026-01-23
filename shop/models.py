@@ -36,5 +36,11 @@ class Enquiry(models.Model):
     message = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    class Meta:
+        permissions = [
+            ('View_enquiry', 'Can view enquiry'),
+            ('Dete_enquiry', 'Can delete enquiry'),
+        ]
+    
     def __str__(self):
         return f"{self.name} : {self.product.name}"
