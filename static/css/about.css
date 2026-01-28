@@ -1,0 +1,111 @@
+/* DESIGN TOKENS */
+:root {
+    --brand-gold: #FFC107;
+    --brand-dark: #121416;
+    --brand-gray: #f8f9fa;
+    --text-main: #2d3436;
+    --text-muted: #636e72;
+    --white: #ffffff;
+}
+
+/* 1. HERO */
+.about-hero {
+    background: linear-gradient(rgba(18, 20, 22, 0.85), rgba(18, 20, 22, 0.85)), url('/static/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 20px;
+    text-align: center;
+    color: var(--white);
+}
+
+.about-hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font scaling */
+    margin-top: 15px;
+    line-height: 1.2;
+}
+
+.highlight { color: var(--brand-gold); }
+
+/* STATS STRIP */
+.stats-strip { background: var(--brand-dark); padding: 40px 0; border-bottom: 4px solid var(--brand-gold); }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; gap: 20px; }
+.stat-item strong { display: block; font-size: 2.2rem; color: var(--brand-gold); }
+.stat-item span { color: rgba(255,255,255,0.7); font-size: 0.9rem; text-transform: uppercase; font-weight: 600; }
+
+/* 2. STORY SECTION */
+.company-story { padding: 80px 0; background: var(--white); }
+.story-flex { display: flex; align-items: center; gap: 60px; }
+.story-image { flex: 1; position: relative; }
+.story-image img { width: 100%; border-radius: 15px; box-shadow: 15px 15px 0px var(--brand-gold); }
+
+.experience-badge {
+    position: absolute; bottom: -20px; right: 10px;
+    background: var(--brand-dark); color: var(--brand-gold);
+    padding: 20px; border-radius: 12px; text-align: center;
+}
+.experience-badge strong { font-size: 2rem; display: block; line-height: 1; }
+.experience-badge span { font-size: 0.8rem; text-transform: uppercase; font-weight: 700; }
+
+.story-text { flex: 1.2; }
+.story-text h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 15px 0 20px; line-height: 1.2; }
+.story-text p { margin-bottom: 20px; color: var(--text-muted); line-height: 1.7; }
+
+.mv-item {
+    display: flex; gap: 20px; background: var(--brand-gray);
+    padding: 25px; border-left: 5px solid var(--brand-gold); border-radius: 0 10px 10px 0;
+}
+.mv-icon i { font-size: 1.8rem; color: var(--brand-gold); }
+.mv-content h4 { margin-bottom: 5px; }
+.mv-content p { font-size: 0.95rem; margin-bottom: 0; }
+
+/* 3. VALUES SECTION */
+.values-section { padding: 80px 0; background: var(--brand-gray); }
+.section-header-center { text-align: center; margin-bottom: 50px; padding: 0 20px; }
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+
+.value-card {
+    background: var(--white); padding: 40px 30px; border-radius: 15px;
+    text-align: center; transition: 0.3s; border: 1px solid rgba(0,0,0,0.03);
+}
+.value-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+.value-card i { font-size: 2.5rem; color: var(--brand-gold); margin-bottom: 20px; display: block; }
+
+/* 4. CTA SECTION */
+.about-cta { padding-bottom: 80px; background: var(--brand-gray); }
+.cta-inner {
+    background: var(--brand-dark); padding: 60px 40px; border-radius: 20px;
+    text-align: center; color: var(--white);
+}
+.cta-inner h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 15px; }
+.cta-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
+.btn-solid, .btn-outline { 
+    padding: 15px 30px; border-radius: 8px; font-weight: 700; text-decoration: none; min-width: 180px;
+}
+.btn-solid { background: var(--brand-gold); color: var(--brand-dark); }
+.btn-outline { border: 2px solid var(--white); color: var(--white); }
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+
+@media (max-width: 992px) {
+    .story-flex { flex-direction: column; gap: 40px; }
+    .story-image { width: 90%; margin: 0 auto; }
+    .values-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .values-grid { grid-template-columns: 1fr; }
+    .cta-inner { padding: 40px 20px; }
+    .experience-badge { right: -10px; bottom: -10px; padding: 15px; }
+    .experience-badge strong { font-size: 1.5rem; }
+}
+
+@media (max-width: 576px) {
+    .stats-grid { grid-template-columns: 1fr; gap: 30px; }
+    .about-hero { padding: 80px 15px; }
+    .hide-mobile { display: none; }
+    .story-image { width: 100%; }
+    .story-image img { box-shadow: 10px 10px 0px var(--brand-gold); }
+    .cta-btns { flex-direction: column; }
+    .btn-solid, .btn-outline { width: 100%; }
+}
