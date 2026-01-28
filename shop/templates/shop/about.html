@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | Pashupatinath Marketing{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+    <div class="container">
+        <div class="hero-content-mini">
+            <span class="sub-tag">Established 2011</span>
+            <h1>Building Foundations with <br><span class="highlight">Integrity & Excellence</span></h1>
+        </div>
+    </div>
+</section>
+
+<section class="stats-strip">
+    <div class="container stats-grid">
+        <div class="stat-item">
+            <strong>15+</strong>
+            <span>Years Experience</span>
+        </div>
+        <div class="stat-item">
+            <strong>5000+</strong>
+            <span>Projects Supplied</span>
+        </div>
+        <div class="stat-item">
+            <strong>50+</strong>
+            <span>Cities Covered</span>
+        </div>
+        <div class="stat-item">
+            <strong>100%</strong>
+            <span>Quality Assurance</span>
+        </div>
+    </div>
+</section>
+
+<section class="company-story">
+    <div class="container story-flex">
+        <div class="story-image">
+            <img src="{% static 'images/product/worker1.png' %}" alt="Our Legacy">
+            <div class="experience-badge hide-mobile">
+                <strong>15+</strong>
+                <span>Years of Trust</span>
+            </div>
+        </div>
+        <div class="story-text">
+            <span class="accent-text">Our Story</span>
+            <h2>Leading the Wholesale Supply Market in India</h2>
+            <p>Pashupatinath Marketing started with a simple vision: to bridge the gap between premium manufacturers and large-scale construction projects. Today, we are one of the most trusted names in the wholesale distribution.</p>
+            
+            <div class="mission-vision">
+                <div class="mv-item">
+                    <div class="mv-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div class="mv-content">
+                        <h4>Our Mission</h4>
+                        <p>To provide high-quality construction materials at transparent wholesale prices with on-time delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="values-section">
+    <div class="container">
+        <div class="section-header-center">
+            <h2>The Pillars of Our Success</h2>
+            <p>Why hundreds of contractors choose us for their mega projects.</p>
+        </div>
+        
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Quality First</h3>
+                <p>We only partner with Tier-1 brands like Tata, UltraTech, and JSW to ensure longevity.</p>
+            </div>
+            <div class="value-card">
+                <i class="fa-solid fa-handshake"></i>
+                <h3>Ethical Trading</h3>
+                <p>Transparent pricing with no hidden costs. We believe in building long-term partnerships.</p>
+            </div>
+            <div class="value-card">
+                <i class="fa-solid fa-truck-fast"></i>
+                <h3>On-Site Delivery</h3>
+                <p>Our logistics network ensures materials reach your site exactly when you need them.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-cta">
+    <div class="container">
+        <div class="cta-inner">
+            <h2>Work With a Partner You Can Trust</h2>
+            <p>Contact our wholesale desk today for a customized quotation.</p>
+            <div class="cta-btns">
+                <a href="{% url 'contact' %}" class="btn-solid">Get In Touch</a>
+                <a href="{% url 'products' %}" class="btn-outline">Catalog</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
