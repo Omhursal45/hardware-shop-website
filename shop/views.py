@@ -30,6 +30,14 @@ def about(request):
     return render(request, 'shop/about.html')
 
 def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        
+        messages.success(request, 'Thank you! Our team will contact you within 24 hours.')
+        return redirect('contact')
     return render(request, 'shop/contact.html')
 
 
@@ -65,4 +73,6 @@ def enquiry(request):
 
 
 def contact_view(request):
+    if request.method == "POST":
+        return render(request, 'enquiry.html') 
     return render(request, 'contact.html')
