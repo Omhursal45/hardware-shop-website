@@ -1,0 +1,152 @@
+/* DESIGN TOKENS - Inherited from Base */
+:root {
+    --brand-gold: #FFC107;
+    --brand-dark: #121416;
+    --text-muted: #636e72;
+    --white: #ffffff;
+    --bg-light: #f8f9fa;
+}
+
+/* PAGE HEADER */
+.page-header {
+    background: var(--brand-dark);
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--white);
+}
+
+.page-header h1 { 
+    font-size: clamp(2rem, 5vw, 3rem); 
+    font-weight: 800; 
+}
+
+.page-header p { 
+    opacity: 0.8; 
+    font-size: 1.1rem; 
+    max-width: 700px; 
+    margin: 20px auto 0; 
+}
+
+/* CONTACT SECTION SPACING */
+.contact-section {
+    padding: 60px 0;
+    margin-top: -40px; /* Pulls content slightly into the header for a modern look */
+}
+
+/* SIDEBAR INFO CARDS */
+.contact-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card-modern {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    transition: 0.3s ease;
+}
+
+/* Hover effect limited to Desktop only to prevent mobile glitching */
+@media (min-width: 992px) {
+    .info-card-modern:hover {
+        border-color: var(--brand-gold);
+        transform: translateX(10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0; /* Prevents icon from squishing */
+    background: #fff9e6;
+    color: var(--brand-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
+.info-content h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--brand-dark); font-weight: 700; }
+.info-content p { margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+.sub-info { font-size: 0.8rem; font-style: italic; margin-top: 5px !important; color: var(--brand-gold); }
+
+/* FORM CONTAINER */
+.form-container-main {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.form-container-main h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+
+.corporate-form label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    color: var(--brand-dark);
+}
+
+.corporate-form .form-control {
+    padding: 12px 15px;
+    border: 2px solid #f0f0f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.corporate-form .form-control:focus {
+    border-color: var(--brand-gold);
+    box-shadow: none;
+    background: #fffcf5;
+}
+
+.btn-corporate-lg {
+    background: var(--brand-dark);
+    color: var(--brand-gold);
+    padding: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 10px;
+    transition: 0.3s;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-corporate-lg:hover {
+    background: var(--brand-gold);
+    color: var(--brand-dark);
+}
+
+/* MAP WRAPPER */
+.map-wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 8px solid var(--white);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 991px) {
+    .contact-section { margin-top: 20px; }
+    .contact-sidebar { margin-bottom: 40px; }
+}
+
+@media (max-width: 576px) {
+    .form-container-main { padding: 30px 20px; }
+    .page-header { padding: 60px 15px; }
+    .info-card-modern { padding: 20px; }
+    .icon-box { width: 40px; height: 40px; font-size: 1rem; }
+}
