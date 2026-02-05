@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from .models import Category , Product ,Enquiry
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-
+from django.core.mail import send_mail
+from django.conf import settings
 def home(request):
     return render(request, 'shop/home.html')
 
@@ -71,8 +72,65 @@ def enquiry(request):
         'product': product
     })
 
-
 def contact_view(request):
     if request.method == "POST":
-        return render(request, 'enquiry.html') 
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        
+        admin_subject = "New Contact Enquiry - Pashupatinath Marketing"
+        admin_message = f"""
+New enquiry received:
+
+Name: {name}
+Phone: {phone}
+Email: {email}
+
+Message:
+{message}
+        """
+
+        send_mail(
+            admin_subject,
+            admin_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.ADMIN_EMAIL],
+            fail_silently=False,
+        )
+        customer_subject = "Welcome to Pashupatinath Marketing"
+        customer_message = f"""
+Dear {name},
+
+Thank you for contacting Pashupatinath Marketing.
+
+We have received your enquiry and our team will get back to you within 24 hours.
+
+📍 Address:
+Pashupatinath Marketing, Main Road,
+Amravati, Maharashtra - 444601
+
+📞 Phone:
++91 98765 43210
+
+📧 Email:
+support@pashupatinath.com
+
+We look forward to working with you.
+
+Best Regards,
+Pashupatinath Marketing Team
+        """
+
+        send_mail(
+            customer_subject,
+            customer_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+
+        messages.success(request, "Your enquiry has been submitted successfully.")
+        return redirect('contact')
+
     return render(request, 'contact.html')
