@@ -127,7 +127,7 @@ Pashupatinath Marketing Team
             customer_message,
             settings.DEFAULT_FROM_EMAIL,
             [email],
-            fail_silently=False,
+            fail_silently=True,
         )
 
         messages.success(request, "Your enquiry has been submitted successfully.")
