@@ -34,10 +34,11 @@
             </div>
 
             <div class="action-buttons">
-                <a href="{% url 'enquiry' %}?product={{ product.name }}"
+                <a href="{% url 'enquiry' %}?product={{ product.id }}"
                    class="btn btn-quote">
                     Request Bulk Quote
                 </a>
+
 
                 <a href="https://wa.me/91XXXXXXXXXX?text=Hello,%20I%20want%20bulk%20pricing%20for%20{{ product.name }}"
                    target="_blank"
