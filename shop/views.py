@@ -78,9 +78,17 @@ def contact_view(request):
         phone = request.POST.get('phone')
         email = request.POST.get('email')
         message = request.POST.get('message')
-        
-        admin_subject = "New Contact Enquiry - Pashupatinath Marketing"
-        admin_message = f"""
+
+        enquiry = Enquiry.objects.create(
+            name=name,
+            phone=phone,
+            email=email,
+            message=message
+        )
+
+        send_mail(
+            subject="New Contact Enquiry - Pashupatinath Marketing",
+            message=f"""
 New enquiry received:
 
 Name: {name}
@@ -89,17 +97,15 @@ Email: {email}
 
 Message:
 {message}
-        """
-
-        send_mail(
-            admin_subject,
-            admin_message,
-            settings.DEFAULT_FROM_EMAIL,
-            [settings.ADMIN_EMAIL],
+            """,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.ADMIN_EMAIL],
             fail_silently=False,
         )
-        customer_subject = "Welcome to Pashupatinath Marketing"
-        customer_message = f"""
+        
+        send_mail(
+            subject="Welcome to Pashupatinath Marketing",
+            message=f"""
 Dear {name},
 
 Thank you for contacting Pashupatinath Marketing.
@@ -116,17 +122,11 @@ Amravati, Maharashtra - 444601
 📧 Email:
 support@pashupatinath.com
 
-We look forward to working with you.
-
 Best Regards,
 Pashupatinath Marketing Team
-        """
-
-        send_mail(
-            customer_subject,
-            customer_message,
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
+            """,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
             fail_silently=True,
         )
 
