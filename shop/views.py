@@ -4,6 +4,9 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
 def home(request):
     return render(request, 'shop/home.html')
 
@@ -72,24 +75,49 @@ def enquiry(request):
         'product': product
     })
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+from .models import Enquiry
+
+
 def contact_view(request):
     if request.method == "POST":
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+        print("🔥 CONTACT FORM HIT 🔥")
+        print("POST DATA:", request.POST)
 
-        enquiry = Enquiry.objects.create(
+        name = request.POST.get("name")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+
+        # Basic validation
+        if not all([name, phone, email, message]):
+            messages.error(request, "All fields are required.")
+            return redirect("contact")
+        Enquiry.objects.create(
             name=name,
             phone=phone,
             email=email,
             message=message
         )
+        try:
+            admin_subject = "New Bulk Enquiry - Pashupatinath Marketing"
 
-        send_mail(
-            subject="New Contact Enquiry - Pashupatinath Marketing",
-            message=f"""
-New enquiry received:
+            admin_html = render_to_string(
+                "emails/admin_enquiry.html",
+                {
+                    "name": name,
+                    "phone": phone,
+                    "email": email,
+                    "message": message,
+                }
+            )
+
+            admin_text = f"""
+New Enquiry Received
 
 Name: {name}
 Phone: {phone}
@@ -97,40 +125,61 @@ Email: {email}
 
 Message:
 {message}
-            """,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.ADMIN_EMAIL],
-            fail_silently=False,
-        )
-        
-        send_mail(
-            subject="Welcome to Pashupatinath Marketing",
-            message=f"""
+            """
+
+            email_admin = EmailMultiAlternatives(
+                subject=admin_subject,
+                body=admin_text,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[settings.ADMIN_EMAIL],
+                reply_to=[email],
+            )
+
+            email_admin.attach_alternative(admin_html, "text/html")
+            email_admin.send(fail_silently=False)
+            print("✅ ADMIN EMAIL SENT")
+
+        except Exception as e:
+            print("❌ ADMIN EMAIL FAILED:", e)
+
+        try:
+            customer_subject = "We Received Your Enquiry | Pashupatinath Marketing"
+
+            customer_html = render_to_string(
+                "emails/customer_welcome.html",
+                {"name": name}
+            )
+
+            customer_text = f"""
 Dear {name},
 
 Thank you for contacting Pashupatinath Marketing.
+Our team will contact you within 24 hours.
 
-We have received your enquiry and our team will get back to you within 24 hours.
+Regards,
+Pashupatinath Marketing
+            """
 
-📍 Address:
-Pashupatinath Marketing, Main Road,
-Amravati, Maharashtra - 444601
+            email_customer = EmailMultiAlternatives(
+                subject=customer_subject,
+                body=customer_text,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[email],
+                reply_to=[settings.ADMIN_EMAIL],
+            )
 
-📞 Phone:
-+91 98765 43210
+            email_customer.attach_alternative(customer_html, "text/html")
+            email_customer.send(fail_silently=False)
+            print("✅ CUSTOMER EMAIL SENT")
 
-📧 Email:
-support@pashupatinath.com
+        except Exception as e:
+            print("❌ CUSTOMER EMAIL FAILED:", e)
 
-Best Regards,
-Pashupatinath Marketing Team
-            """,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
-            fail_silently=True,
+        messages.success(
+            request,
+            "Your enquiry has been received. Our team will contact you shortly."
         )
 
-        messages.success(request, "Your enquiry has been submitted successfully.")
-        return redirect('contact')
+        return redirect("contact")
 
-    return render(request, 'contact.html')
+    return render(request, "contact.html")
