@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Enquiry
+from .models import Category, Product, Enquiry, Contact
 
 
 @admin.register(Category)
@@ -30,3 +30,11 @@ class EnquiryAdmin(admin.ModelAdmin):
     
     def has_add_permission(self, request):
         return False
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ("name", "phone" , "email", "created_at")
+    search_fields = ("name","phone","email")
+    ordering = ("-created_at",)
+    readonly_fields = ("created_at",)
+    
