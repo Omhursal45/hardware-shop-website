@@ -4,24 +4,61 @@
     <meta charset="UTF-8">
     <title>New Enquiry</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; }
-        .container { max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; }
-        h2 { color: #2c3e50; }
-        p { line-height: 1.5; }
-        .details { background-color: #f1f1f1; padding: 10px; border-radius: 5px; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        p {
+            line-height: 1.6;
+            margin: 6px 0;
+        }
+        .details {
+            background-color: #f1f1f1;
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .label {
+            font-weight: bold;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h2>New Contact Enquiry</h2>
-        <p>You have received a new enquiry from the website:</p>
+        <h2>📩 New Product Enquiry</h2>
+
+        <p>You have received a new enquiry from the website.</p>
+
         <div class="details">
-            <p><strong>Name:</strong> {{ name }}</p>
-            <p><strong>Phone:</strong> {{ phone }}</p>
-            <p><strong>Email:</strong> {{ email }}</p>
-            <p><strong>Message:</strong><br>{{ message }}</p>
+            <p><span class="label">Product:</span> {{ product.name|default:"N/A" }}</p>
+            <p><span class="label">Name:</span> {{ name }}</p>
+            <p><span class="label">Phone:</span> {{ phone }}</p>
+            <p><span class="label">Email:</span> {{ email|default:"Not provided" }}</p>
+            <p><span class="label">Quantity:</span> {{ quantity }}</p>
+
+            <p class="label">Message:</p>
+            <p>{{ message|linebreaksbr }}</p>
         </div>
-        <p>Check your admin panel for more details.</p>
+
+        <p style="margin-top: 15px;">
+            Please log in to the admin panel for full details.
+        </p>
     </div>
 </body>
 </html>
