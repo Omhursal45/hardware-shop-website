@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from .models import Contact
 
 def home(request):
     return render(request, 'shop/home.html')
@@ -33,16 +34,16 @@ def products(request):
 def about(request):
     return render(request, 'shop/about.html')
 
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+# def contact(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         phone = request.POST.get('phone')
+#         email = request.POST.get('email')
+#         message = request.POST.get('message')
         
-        messages.success(request, 'Thank you! Our team will contact you within 24 hours.')
-        return redirect('contact')
-    return render(request, 'shop/contact.html')
+#         messages.success(request, 'Thank you! Our team will contact you within 24 hours.')
+#         return redirect('contact')
+#     return render(request, 'shop/contact.html')
 
 
 
@@ -75,15 +76,7 @@ def enquiry(request):
         'product': product
     })
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.conf import settings
-from .models import Enquiry
-
-
-def contact_view(request):
+def contact(request):
     if request.method == "POST":
         print("🔥 CONTACT FORM HIT 🔥")
         print("POST DATA:", request.POST)
@@ -93,18 +86,20 @@ def contact_view(request):
         email = request.POST.get("email")
         message = request.POST.get("message")
 
-        # Basic validation
         if not all([name, phone, email, message]):
             messages.error(request, "All fields are required.")
             return redirect("contact")
-        Enquiry.objects.create(
+
+        Contact.objects.create(
             name=name,
             phone=phone,
             email=email,
             message=message
         )
+
+        # ---------------- ADMIN EMAIL ----------------
         try:
-            admin_subject = "New Bulk Enquiry - Pashupatinath Marketing"
+            admin_subject = "New Contact Enquiry - Pashupatinath Marketing"
 
             admin_html = render_to_string(
                 "emails/admin_enquiry.html",
@@ -117,7 +112,7 @@ def contact_view(request):
             )
 
             admin_text = f"""
-New Enquiry Received
+New Contact Enquiry
 
 Name: {name}
 Phone: {phone}
@@ -134,14 +129,15 @@ Message:
                 to=[settings.ADMIN_EMAIL],
                 reply_to=[email],
             )
-
             email_admin.attach_alternative(admin_html, "text/html")
-            email_admin.send(fail_silently=False)
+            email_admin.send()
+
             print("✅ ADMIN EMAIL SENT")
 
         except Exception as e:
             print("❌ ADMIN EMAIL FAILED:", e)
 
+        # ---------------- CUSTOMER EMAIL ----------------
         try:
             customer_subject = "We Received Your Enquiry | Pashupatinath Marketing"
 
@@ -165,11 +161,10 @@ Pashupatinath Marketing
                 body=customer_text,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=[email],
-                reply_to=[settings.ADMIN_EMAIL],
             )
-
             email_customer.attach_alternative(customer_html, "text/html")
-            email_customer.send(fail_silently=False)
+            email_customer.send()
+
             print("✅ CUSTOMER EMAIL SENT")
 
         except Exception as e:
@@ -179,7 +174,6 @@ Pashupatinath Marketing
             request,
             "Your enquiry has been received. Our team will contact you shortly."
         )
-
         return redirect("contact")
 
-    return render(request, "contact.html")
+    return render(request, "shop/contact.html")
