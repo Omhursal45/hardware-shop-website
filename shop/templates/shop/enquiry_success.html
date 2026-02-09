@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2>Thank You!</h2>
+    <p>Your bulk enquiry has been sent. Our team will contact you shortly.</p>
+    <a href="{% url 'products' %}" class="btn btn-primary mt-3">
+        Back to Products
+    </a>
+</div>
+{% endblock %}
