@@ -1,9 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("enquiryForm");
-
-    form.addEventListener("submit", () => {
-        const btn = form.querySelector(".submit-btn");
-        btn.innerText = "Submitting...";
-        btn.disabled = true;
-    });
+document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+    const btn = document.getElementById('submitBtn');
+    const text = btn.querySelector('.btn-text');
+    const spinner = btn.querySelector('.spinner');
+    
+    // Change state
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.8';
+    text.innerText = 'Sending...';
+    spinner.style.display = 'block';
 });
