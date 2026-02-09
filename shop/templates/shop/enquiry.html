@@ -1,64 +1,76 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Bulk Enquiry{% endblock %}
+{% block title %}Bulk Enquiry | {{ product.name }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/enquiry.css' %}">
 {% endblock %}
 
 {% block content %}
-<aside>
-<div class="enquiry-wrapper">
-    <div class="enquiry-card">
-        <h2>Bulk Enquiry</h2>
-        <p class="subtitle">
-            Request pricing and availability for bulk purchase
-        </p>
+<section class="enquiry-container">
+    <div class="enquiry-wrapper">
+        <div class="form-header">
+            <span class="badge">B2B Priority</span>
+            <h2>Bulk Purchase Enquiry</h2>
+            <p class="subtitle">Get a custom quote within 24 hours.</p>
+        </div>
 
-        <form method="post" id="enquiryForm">
-            {% csrf_token %}
-
-            <input type="hidden" name="product_id" value="{{ product.id }}">
-
-            <div class="form-group">
-                <label>Product</label>
-                <input type="text" value="{{ product.name }}" disabled>
+        <div class="enquiry-grid">
+            <div class="product-summary">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-thumb">
+                <div class="product-info">
+                    <small>Inquiring about:</small>
+                    <h3>{{ product.name }}</h3>
+                    <p class="sku">SKU: {{ product.sku|default:"N/A" }}</p>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Your Name *</label>
-                <input type="text" name="name" required>
-            </div>
+            <form method="post" id="enquiryForm" class="styled-form">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}">
 
-            <div class="form-group">
-                <label>Phone Number *</label>
-                <input type="tel" name="phone" required>
-            </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name <span>*</span></label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span>*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" required>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label>Email (optional)</label>
-                <input type="email" name="email">
-            </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Work Email</label>
+                        <input type="email" id="email" name="email" placeholder="john@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Required Quantity <span>*</span></label>
+                        <input type="text" id="quantity" name="quantity" placeholder="e.g. 500 units" required>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label>Required Quantity *</label>
-                <input type="text" name="quantity" placeholder="e.g. 500 units / 10 tons" required>
-            </div>
+                <div class="form-group">
+                    <label for="message">Specific Requirements</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Mention shipping destination, customization, or urgency..."></textarea>
+                </div>
 
-            <div class="form-group">
-                <label>Message</label>
-                <textarea name="message" rows="4" placeholder="Any specific requirements..."></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn">
-                Submit Enquiry
-            </button>
-        </form> 
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">Send Request</span>
+                    <div class="spinner" style="display: none;"></div>
+                </button>
+                
+                <p class="form-footer">
+                    <i class="icon-lock"></i> Your data is protected and used only for this quote.
+                </p>
+            </form> 
+        </div>
     </div>
-</div>
-</aside>
+</section>
+{% endblock %}
+
 {% block extra_js %}
 <script src="{% static 'js/enquiry.js' %}"></script>
-{% endblock %}
 {% endblock %}
