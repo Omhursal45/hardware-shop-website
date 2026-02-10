@@ -20,20 +20,31 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Enquiry)
 class EnquiryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'product', 'phone', 'quantity', 'created_at')
-    search_fields = ('name', 'phone', 'product__name')
-    list_filter = ('created_at',)
-    ordering = ('-created_at',)
-    readonly_fields = ('created_at',)
-    
-    def has_delete_permission(self, request, obj=None):
-        return request.user.is_superuser
-    
-    def has_change_permission(self ,request, obj=None):
-        return request.user.is_superuser
-    
-    def has_add_permission(self, request):
-        return False
+    list_display = (
+        "name",
+        "phone",
+        "source",
+        "status",
+        "product",
+        "created_at",
+    )
+
+    list_filter = (
+        "source",
+        "status",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "phone",
+        "email",
+        "product__name",
+    )
+
+    readonly_fields = ("created_at",)
+
+    date_hierarchy = "created_at"
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
@@ -55,21 +66,17 @@ def admin_dashboard(request):
     context = dict(
         admin.site.each_context(request),
 
-        # cards
         total_enquiries=Enquiry.objects.count(),
         today_enquiries=Enquiry.objects.filter(created_at__date=today).count(),
         total_products=Product.objects.count(),
         total_categories=Category.objects.count(),
         total_contacts=Contact.objects.count(),
 
-        # table
         recent_enquiries=Enquiry.objects.order_by("-created_at")[:10],
     )
 
     return TemplateResponse(request, "admin/dashboard.html", context)
 
-
-# ---- URL wiring (correct & safe) ----
 original_get_urls = admin.site.get_urls
 
 def custom_get_urls():
