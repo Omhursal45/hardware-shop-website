@@ -1,12 +1,15 @@
 from django.shortcuts import render,redirect
-from .models import Category , Product ,Enquiry
+from .models import Category,Product,Enquiry
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import Contact
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.timezone import now
+from django.db.models import Count
 
 def home(request):
     return render(request, 'shop/home.html')
@@ -47,8 +50,7 @@ def about(request):
 
 def enquiry(request):
     product = None
-
-    # GET product from URL
+    
     product_id = request.GET.get("product")
     if product_id:
         product = get_object_or_404(Product, id=product_id)
@@ -69,8 +71,7 @@ def enquiry(request):
         if not all([name, phone, quantity]):
             messages.error(request, "Please fill all required fields.")
             return redirect(request.path)
-
-        # ✅ SAVE ENQUIRY
+        
         enquiry_obj = Enquiry.objects.create(
             product=product,
             name=name,
@@ -81,10 +82,7 @@ def enquiry(request):
         )
 
         print("✅ ENQUIRY SAVED:", enquiry_obj.id)
-
-        # =======================
-        # 📧 ADMIN EMAIL
-        # =======================
+        
         try:
             admin_subject = f"New Product Enquiry – {product.name}"
 
@@ -127,10 +125,7 @@ Message:
 
         except Exception as e:
             print("❌ ADMIN EMAIL FAILED:", e)
-
-        # =======================
-        # 📧 CUSTOMER EMAIL
-        # =======================
+            
         if email:
             try:
                 customer_subject = "We Received Your Product Enquiry"
@@ -282,3 +277,18 @@ Pashupatinath Marketing
         return redirect("contact")
 
     return render(request, "shop/contact.html")
+
+
+@staff_member_required
+def admin_dashboard(request):
+    today = now().date()
+
+    context = {
+        "total_enquiries": Enquiry.objects.count(),
+        "today_enquiries": Enquiry.objects.filter(created_at__date=today).count(),
+        "total_products": Product.objects.count(),
+        "total_categories": Category.objects.count(),
+        "recent_enquiries": Enquiry.objects.order_by("-created_at")[:10],
+    }
+
+    return render(request, "admin/dashboard.html", context)
