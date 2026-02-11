@@ -9,6 +9,7 @@ from .models import Category, Product, Enquiry, Contact
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from django.utils.html import format_html
+from .models import Quotation
 
 
 @admin.register(Category)
@@ -209,3 +210,25 @@ def custom_get_urls():
     return custom_urls + urls
 
 admin.site.get_urls = custom_get_urls
+
+@admin.register(Quotation)
+class QuotationAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "enquiry",
+        "price",
+        "gst_percentage",
+        "valid_until",
+        "created_at",
+        "view_pdf",
+    )
+
+    readonly_fields = ("created_at",)
+
+    def view_pdf(self, obj):
+        return format_html(
+            '<a class="button" href="/quotation/{}/pdf/" target="_blank">Download PDF</a>',
+            obj.id
+        )
+
+    view_pdf.short_description = "Quotation PDF"
