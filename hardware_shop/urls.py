@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from shop.views import admin_dashboard
+print("IMPORTING DASHBOARD FROM:", admin_dashboard.__module__)
+
 
 urlpatterns = [
+    path("admin/dashboard/",admin_dashboard),
     path('admin/', admin.site.urls),
     path('', include('shop.urls')),
 ]
