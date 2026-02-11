@@ -2,8 +2,11 @@ from django.contrib import admin
 from django.urls import path
 from django.template.response import TemplateResponse
 from datetime import timedelta
+from django.http import HttpResponse
 from django.utils.timezone import now
 from .models import Category, Product, Enquiry, Contact
+from openpyxl import Workbook
+from openpyxl.styles import Font
 
 
 @admin.register(Category)
@@ -17,6 +20,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'is_available')
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
+
+
+
 
 @admin.register(Enquiry)
 class EnquiryAdmin(admin.ModelAdmin):
@@ -46,6 +52,54 @@ class EnquiryAdmin(admin.ModelAdmin):
 
     date_hierarchy = "created_at"
 
+    actions = ["export_to_excel"]
+
+    def export_to_excel(self, request, queryset):
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Enquiries"
+
+        columns = [
+            "ID",
+            "Name",
+            "Phone",
+            "Email",
+            "Product",
+            "Quantity",
+            "Source",
+            "Status",
+            "Created At",
+        ]
+
+        # Header row
+        for col_num, column_title in enumerate(columns, 1):
+            cell = worksheet.cell(row=1, column=col_num)
+            cell.value = column_title
+            cell.font = Font(bold=True)
+
+        # Data rows
+        for row_num, enquiry in enumerate(queryset, 2):
+            worksheet.cell(row=row_num, column=1).value = enquiry.id
+            worksheet.cell(row=row_num, column=2).value = enquiry.name
+            worksheet.cell(row=row_num, column=3).value = enquiry.phone
+            worksheet.cell(row=row_num, column=4).value = enquiry.email
+            worksheet.cell(row=row_num, column=5).value = (
+                enquiry.product.name if enquiry.product else "-"
+            )
+            worksheet.cell(row=row_num, column=6).value = enquiry.quantity
+            worksheet.cell(row=row_num, column=7).value = enquiry.source
+            worksheet.cell(row=row_num, column=8).value = enquiry.status
+            worksheet.cell(row=row_num, column=9).value = enquiry.created_at.strftime("%Y-%m-%d %H:%M")
+
+        response = HttpResponse(
+            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        response["Content-Disposition"] = "attachment; filename=enquiries.xlsx"
+
+        workbook.save(response)
+        return response
+
+    export_to_excel.short_description = "📥 Export selected enquiries to Excel"
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ("name", "phone" , "email", "created_at")
