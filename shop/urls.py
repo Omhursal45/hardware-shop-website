@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import generate_quotation_pdf
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -9,5 +10,6 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('enquiry/', views.enquiry, name='enquiry'),
     path('enquiry-success/', views.enquiry_success, name='enquiry_success'),
-    path("admin/dashboard/", views.admin_dashboard, name="admin_dashboard"),
+    path('quotation/<int:quotation_id>/pdf/', generate_quotation_pdf, name="quotation_pdf")
+    
 ]
