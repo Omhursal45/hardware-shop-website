@@ -7,10 +7,19 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import Contact
 from datetime import timedelta
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
 from django.db.models import Count,Sum
 from django.db.models.functions import TruncDate
+
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
+from reportlab.platypus import Table,TableStyle
+from reportlab.lib.units import inch
+from .models import Quotation
+from django.http import HttpResponse
 
 def home(request):
     return render(request, 'shop/home.html')
@@ -376,3 +385,48 @@ def admin_dashboard(request):
 
 def enquiry_success(request):
     return render(request, "shop/enquiry_success.html")
+
+
+def generate_quotation_pdf(request, quotation_id):
+    quotation = get_object_or_404(Quotation, id=quotation_id)
+    enquiry = quotation.enquiry
+    
+    response = HttpResponse(content_type ="application/pdf")
+    response["Content-Disposition"] = f"attachment; filename=quotation_{quotation.id}.pdf"
+    
+    doc = SimpleDocTemplate(response)
+    elements = []
+    
+    styles = getSampleStyleSheet()
+    elements.append(Paragraph("<b>Pashupathinath Marketing</b>", styles['Title']))
+    elements.append(Spacer(1, 12))
+    
+    elements.append(Paragraph(f"Customer : {enquiry.name}", styles["Normal"]))
+    elements.append(Paragraph(f"Phone : {enquiry.phone}", styles["Normal"]))
+    elements.append(Paragraph(f"Email : {enquiry.email}", styles["Normal"]))
+    elements.append(Spacer(1, 12))
+
+    data = [
+        ["Product", enquiry.product.name if enquiry.product else "-"],
+        ["Quantity", enquiry.quantity],
+        ["Base Price", f"₹ {quotation.price}"],
+        ["GST", f"{quotation.gst_percentage}%"],
+        ["Total Amount", f"₹ {quotation.total_amount()}"],
+        ["Valid Until", quotation.valid_until.strftime("%d-%m-%Y")],
+    ]
+    
+    table = Table(data, colWidths=[2*inch, 3*inch])
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0,0),(-1,0), colors.lightgrey),
+        ('GRID', (0,0), (-1,-1), 1, colors.black),
+    ]))
+    
+    elements.append(table)
+    
+    doc.build(elements)
+    
+    enquiry.status = "quoted"
+    enquiry.save()
+    
+    return response
+    
