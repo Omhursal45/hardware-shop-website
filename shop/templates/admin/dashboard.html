@@ -111,7 +111,7 @@
             </div>
             <div class="kpi-card">
                 <span style="color:var(--danger); font-size:0.8rem; font-weight:700;">AWAITING REPLY</span>
-                <strong>{{ followups_due|default:"0" }}</strong>
+                <strong>{{ awaiting_reply|default:"0" }}</strong>
                 <small>Needs immediate attention</small>
             </div>
         </div>
@@ -139,7 +139,7 @@
                             <td>{{ e.product.name|default:"General" }}</td>
                             <td>{{ e.get_status_display }}</td>
                             <td>
-                                {% if e.status != 'new' %}
+                                {% if e.status|lower != 'new' %}
                                 <span class="badge status-replied"><i data-lucide="check-circle" style="width:12px; display:inline-block;"></i> Responded</span>
                                 {% else %}
                                 <span class="badge status-pending">Awaiting Reply</span>
