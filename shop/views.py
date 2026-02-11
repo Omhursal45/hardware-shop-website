@@ -9,7 +9,8 @@ from .models import Contact
 from datetime import timedelta
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
-from django.db.models import Count ,Q
+from django.db.models import Count,Sum
+from django.db.models.functions import TruncDate
 
 def home(request):
     return render(request, 'shop/home.html')
@@ -281,8 +282,11 @@ Pashupatinath Marketing
 
     return render(request, "shop/contact.html")
 
+
+
 @staff_member_required
 def admin_dashboard(request):
+
     today = now().date()
     last_7_days = today - timedelta(days=7)
 
@@ -290,30 +294,28 @@ def admin_dashboard(request):
     
     total_enquiries = enquiries.count()
 
-    awaiting_reply = enquiries.filter(
-        status__iexact="New"
-    ).count()
+    awaiting_reply = enquiries.filter(status="new").count()
 
-    responded_count = enquiries.exclude(
-        status__iexact="New"
-    ).count()
+    responded_count = enquiries.exclude(status="new").count()
 
-    conversions = enquiries.filter(
-        status__iexact="Converted"
-    ).count()
+    conversions = enquiries.filter(status="converted").count()
 
-    followups_due = enquiries.filter(follow_up_date__lte=today).exclude(
-        status__iexact="Converted"
-    ).count()
+    followups_due = enquiries.filter(
+        follow_up_date__lte=today
+    ).exclude(status="converted").count()
 
     response_rate = round(
         (responded_count / total_enquiries) * 100
+    ) if total_enquiries > 0 else 0
+
+    conversion_rate = round(
+        (conversions / total_enquiries) * 100
     ) if total_enquiries > 0 else 0
     
     trend_data = (
         enquiries
         .filter(created_at__date__gte=last_7_days)
-        .extra(select={"day": "date(created_at)"})
+        .annotate(day=TruncDate("created_at"))
         .values("day")
         .annotate(total=Count("id"))
         .order_by("day")
@@ -325,29 +327,42 @@ def admin_dashboard(request):
     source_data = enquiries.values("source").annotate(total=Count("id"))
 
     source_labels = [
-        (s["source"] or "Unknown").title()
+        dict(Enquiry.SOURCE_CHOICES).get(s["source"], "Unknown")
         for s in source_data
     ]
+
     source_values = [s["total"] for s in source_data]
 
     status_data = enquiries.values("status").annotate(total=Count("id"))
 
     status_labels = [
-        (s["status"] or "Unknown").title()
+        dict(Enquiry.STATUS_CHOICES).get(s["status"], "Unknown")
         for s in status_data
     ]
+
     status_values = [s["total"] for s in status_data]
-    
-    recent_enquiries = enquiries.select_related(
-        "product").order_by("-created_at")[:10]
+
+    total_revenue = enquiries.filter(
+        status="converted"
+    ).aggregate(
+        total=Sum("estimated_value")
+    )["total"] or 0
+
+    recent_enquiries = (
+        enquiries
+        .select_related("product")
+        .order_by("-created_at")[:10]
+    )
 
     context = {
         "total_enquiries": total_enquiries,
+        "awaiting_reply": awaiting_reply,
         "responded_count": responded_count,
-        "awaiting_reply": awaiting_reply,  
-        "followups_due": followups_due,
         "conversions": conversions,
         "response_rate": response_rate,
+        "conversion_rate": conversion_rate,
+        "followups_due": followups_due,
+        "total_revenue": total_revenue,
         "trend_labels": trend_labels,
         "trend_values": trend_values,
         "source_labels": source_labels,
@@ -358,8 +373,6 @@ def admin_dashboard(request):
     }
 
     return render(request, "admin/dashboard.html", context)
-
-
 
 def enquiry_success(request):
     return render(request, "shop/enquiry_success.html")
