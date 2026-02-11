@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
+from decimal import Decimal
 class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='categories/', blank=True)
@@ -124,3 +125,26 @@ class Enquiry(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
+
+class Quotation(models.Model):
+    enquiry = models.OneToOneField(
+        Enquiry,
+        on_delete=models.CASCADE,
+        related_name="quotation"
+    )
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    gst_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=18)
+    valid_until = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+    def gst_amount(self):
+        return (self.price * self.gst_percentage) / Decimal("100")
+    
+    def total_amount(self):
+        return self.price + self.gst_amount()
+    
+    def __str__(self):
+        return f"Quatition for {self.enquiry.name}"
+    
+    
