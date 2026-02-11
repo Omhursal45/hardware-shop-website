@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.urls import path
 from django.template.response import TemplateResponse
-from datetime import timedelta
+from datetime import timezone
+
 from django.http import HttpResponse
 from django.utils.timezone import now
 from .models import Category, Product, Enquiry, Contact
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from django.utils.html import format_html
 
 
 @admin.register(Category)
@@ -53,7 +55,53 @@ class EnquiryAdmin(admin.ModelAdmin):
     date_hierarchy = "created_at"
 
     actions = ["export_to_excel"]
+    
+    
+    def status_badge(self, obj):
+        colors = {
+            "new" : "blue",
+            "contacted" : "orange",
+            "quoted" : "purple",
+            "negotiation" : "teal",
+            "converted" : "green",
+            "closed" : "gray",
+            "lost" : "red",
+        }
+        color = colors.get(obj.status, "black")
+        return format_html(
+            '<span style="color:white;background:{};padding:4px 8px;border-radius:6px;">{}</span>',
+            color,
+            obj.get_status_display()
+        )
+    
+    status_badge.short_description = "Status"
 
+
+    def priority_badge(self,obj):
+        colors = {
+            "low" : "gray",
+            "medium" : "orange",
+            "high" : "red",
+        }
+        color = colors.get(obj.priority, "black")
+        return format_html(
+            '<span style="color:white;background:{};padding:4px 8px;border-radius:6px;">{}</span>',
+            color,
+            obj.get_priority_display()
+        )
+        
+    priority_badge.short_description = "Priority"
+    
+    
+    def followup_status(self,obj):
+        if obj.follow_up_date:
+            if obj.follow_up_date < timezone.now().date():
+                return format_html('<span style="color:red;font-weight:bold;">Overdue</span>')
+            return format_html('<span style="color:green;">Upcoming</span>')
+        return "-"
+    
+    followup_status.short_description = "Follow-Up"
+    
     def export_to_excel(self, request, queryset):
         workbook = Workbook()
         worksheet = workbook.active
@@ -68,6 +116,10 @@ class EnquiryAdmin(admin.ModelAdmin):
             "Quantity",
             "Source",
             "Status",
+            "Priority",
+            "Assigned To",
+            "Estimated Value",
+            "Follow-Up Date"
             "Created At",
         ]
 
@@ -88,7 +140,18 @@ class EnquiryAdmin(admin.ModelAdmin):
             )
             worksheet.cell(row=row_num, column=6).value = enquiry.quantity
             worksheet.cell(row=row_num, column=7).value = enquiry.source
-            worksheet.cell(row=row_num, column=8).value = enquiry.status
+            worksheet.cell(row=row_num, column=8).value = enquiry.get_status_display()
+            worksheet.cell(row=row_num, column=9).value = enquiry.get_priority_display()
+            worksheet.cell(row=row_num, column=10).value = enquiry.assigned_to
+            worksheet.cell(row=row_num, column=11).value = (
+                float(enquiry.estimated_value) if enquiry.estimated_value else "-"
+            )
+            worksheet.cell(row=row_num, column=12).value = (
+                enquiry.get_follow_up_date.strftime("%Y-%m-%d")
+                if enquiry.get_follow_up_date else "-"
+            )
+            
+            
             worksheet.cell(row=row_num, column=9).value = enquiry.created_at.strftime("%Y-%m-%d %H:%M")
 
         response = HttpResponse(
@@ -100,6 +163,7 @@ class EnquiryAdmin(admin.ModelAdmin):
         return response
 
     export_to_excel.short_description = "📥 Export selected enquiries to Excel"
+    
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ("name", "phone" , "email", "created_at")
