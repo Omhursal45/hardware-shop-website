@@ -9,7 +9,7 @@ from .models import Contact
 from datetime import timedelta
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
-from django.db.models import Count
+from django.db.models import Count ,Q
 
 def home(request):
     return render(request, 'shop/home.html')
@@ -281,60 +281,79 @@ Pashupatinath Marketing
 
     return render(request, "shop/contact.html")
 
-
 @staff_member_required
 def admin_dashboard(request):
     today = now().date()
-    yesterday = today - timedelta(days=1)
     last_7_days = today - timedelta(days=7)
 
-    total_enquiries = Enquiry.objects.count()
-    enquiries_today = Enquiry.objects.filter(created_at__date=today).count()
-    followups_due = Enquiry.objects.filter(
-        follow_up_date__lte=today,
-        status__in=["new", "contacted", "quoted"]
-    ).count()
-    conversions = Enquiry.objects.filter(status="converted").count()
-
-    trend_data = (
-        Enquiry.objects
-        .filter(created_at__date__gte=last_7_days)
-        .extra(select={'day': "date(created_at)"})
-        .values('day')
-        .annotate(total=Count('id'))
-        .order_by('day')
-    )
-
-    trend_labels = [str(d['day']) for d in trend_data]
-    trend_values = [d['total'] for d in trend_data]
-
-    source_data = Enquiry.objects.values('source').annotate(total=Count('id'))
-    source_labels = [s['source'].title() for s in source_data]
-    source_values = [s['total'] for s in source_data]
-
-    status_data = Enquiry.objects.values('status').annotate(total=Count('id'))
-    status_labels = [s['status'].title() for s in status_data]
-    status_values = [s['total'] for s in status_data]
+    enquiries = Enquiry.objects.all()
     
-    recent_enquiries = (
-        Enquiry.objects
-        .select_related("product")
-        .order_by("-created_at")[:10]
+    total_enquiries = enquiries.count()
+
+    awaiting_reply = enquiries.filter(
+        status__iexact="New"
+    ).count()
+
+    responded_count = enquiries.exclude(
+        status__iexact="New"
+    ).count()
+
+    conversions = enquiries.filter(
+        status__iexact="Converted"
+    ).count()
+
+    followups_due = enquiries.filter(follow_up_date__lte=today).exclude(
+        status__iexact="Converted"
+    ).count()
+
+    response_rate = round(
+        (responded_count / total_enquiries) * 100
+    ) if total_enquiries > 0 else 0
+    
+    trend_data = (
+        enquiries
+        .filter(created_at__date__gte=last_7_days)
+        .extra(select={"day": "date(created_at)"})
+        .values("day")
+        .annotate(total=Count("id"))
+        .order_by("day")
     )
+
+    trend_labels = [str(d["day"]) for d in trend_data]
+    trend_values = [d["total"] for d in trend_data]
+
+    source_data = enquiries.values("source").annotate(total=Count("id"))
+
+    source_labels = [
+        (s["source"] or "Unknown").title()
+        for s in source_data
+    ]
+    source_values = [s["total"] for s in source_data]
+
+    status_data = enquiries.values("status").annotate(total=Count("id"))
+
+    status_labels = [
+        (s["status"] or "Unknown").title()
+        for s in status_data
+    ]
+    status_values = [s["total"] for s in status_data]
+    
+    recent_enquiries = enquiries.select_related(
+        "product").order_by("-created_at")[:10]
 
     context = {
         "total_enquiries": total_enquiries,
-        "enquiries_today": enquiries_today,
+        "responded_count": responded_count,
+        "awaiting_reply": awaiting_reply,  
         "followups_due": followups_due,
         "conversions": conversions,
-
+        "response_rate": response_rate,
         "trend_labels": trend_labels,
         "trend_values": trend_values,
         "source_labels": source_labels,
         "source_values": source_values,
         "status_labels": status_labels,
         "status_values": status_values,
-
         "recent_enquiries": recent_enquiries,
     }
 
