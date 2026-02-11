@@ -37,7 +37,6 @@ class Contact(models.Model):
     def __str__(self):
         return f"{self.name} - {self.phone}"
 
-
 class Enquiry(models.Model):
 
     SOURCE_CHOICES = [
@@ -51,8 +50,16 @@ class Enquiry(models.Model):
         ("new", "New"),
         ("contacted", "Contacted"),
         ("quoted", "Quoted"),
+        ("negotiation", "Negotiation"),
         ("converted", "Converted"),
         ("closed", "Closed"),
+        ("lost", "Lost"),
+    ]
+
+    PRIORITY_CHOICES = [
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
     ]
 
     product = models.ForeignKey(
@@ -62,9 +69,12 @@ class Enquiry(models.Model):
         blank=True
     )
 
+    # Customer Info
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
+
+    # Enquiry Info
     quantity = models.CharField(max_length=50, blank=True)
     message = models.TextField(blank=True)
 
@@ -80,11 +90,32 @@ class Enquiry(models.Model):
         default="new"
     )
 
+    priority = models.CharField(
+        max_length=10,
+        choices=PRIORITY_CHOICES,
+        default="medium"
+    )
+
+    estimated_value = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    assigned_to = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Sales person name"
+    )
+
     follow_up_date = models.DateField(null=True, blank=True)
+
     notes = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ["-created_at"]
 
@@ -93,5 +124,3 @@ class Enquiry(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
-
-
