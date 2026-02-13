@@ -9,8 +9,8 @@ from .models import Category, Product, Enquiry, Contact
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from django.utils.html import format_html
-from .models import Quotation
-from .models import Order
+from .models import Quotation,Order,Invoice
+
 
 
 @admin.register(Category)
@@ -244,3 +244,30 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ("created_at",)
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = (
+        "invoice_number",
+        "order",
+        "total_amount",
+        "status",
+        "issue_date",
+        "due_date",
+    )
+    list_filter = ("status", "issue_date")
+    search_fields = ("invoice_number",)
+    readonly_fields = ("created_at",)
+
+    def colored_status(self, obj):
+        colors = {
+            "paid": "green",
+            "unpaid": "red",
+            "partial": "orange",
+            "overdue": "darkred",
+        }
+        return format_html(
+            '<span style="color:{}; font-weight:bold;">{}</span>',
+            colors.get(obj.status, "black"),
+            obj.status.upper(),
+        )
