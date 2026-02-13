@@ -10,6 +10,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font
 from django.utils.html import format_html
 from .models import Quotation
+from .models import Order
 
 
 @admin.register(Category)
@@ -232,3 +233,14 @@ class QuotationAdmin(admin.ModelAdmin):
         )
 
     view_pdf.short_description = "Quotation PDF"
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "customer",
+        "status",
+        "total_amount",
+        "created_at",
+    )
+
+    readonly_fields = ("created_at",)
