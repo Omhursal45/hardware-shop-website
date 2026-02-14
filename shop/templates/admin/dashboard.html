@@ -64,10 +64,32 @@
     <div class="nav-group">
         <h3>Leads Management</h3>
         <a href="{% url 'admin:shop_enquiry_changelist' %}" class="nav-item">
-            <span><i data-lucide="users"></i> All Enquiries</span>
+            <span><i data-lucide="list"></i> All Enquiries</span>
+        </a>
+        <a href="{% url 'admin:shop_contact_changelist' %}" class="nav-item">
+            <span><i data-lucide="contact"></i> Contact Enquiries</span>
+        </a>
+        <a href="{% url 'admin:shop_quotation_changelist' %}" class="nav-item">
+            <span><i data-lucide="file-text"></i> Quotations</span>
         </a>
         <a href="{% url 'admin:shop_enquiry_changelist' %}?status__exact=responded" class="nav-item">
             <span><i data-lucide="message-square"></i> My Responses</span>
+        </a>
+    </div>
+
+    <div class="nav-group">
+        <h3>Sales Management</h3>
+        <a href="{% url 'admin:shop_order_changelist' %}" class="nav-item">
+            <span><i data-lucide="shopping-cart"></i> Orders</span>
+        </a>
+        <a href="{% url 'admin:shop_invoice_changelist' %}" class="nav-item">
+            <span><i data-lucide="receipt"></i> Invoices</span>
+        </a>
+        <a href="{% url 'admin:shop_payment_changelist' %}" class="nav-item">
+            <span><i data-lucide="credit-card"></i> Payments</span>
+        </a>
+        <a href="{% url 'admin:shop_customer_changelist' %}" class="nav-item">
+            <span><i data-lucide="users"></i> Customers</span>
         </a>
     </div>
 
@@ -78,6 +100,28 @@
         </a>
         <a href="{% url 'admin:shop_category_changelist' %}" class="nav-item">
             <span><i data-lucide="layers"></i> Categories</span>
+        </a>
+        <a href="{% url 'admin:shop_supplier_changelist' %}" class="nav-item">
+            <span><i data-lucide="truck"></i> Suppliers</span>
+        </a>
+        <a href="{% url 'admin:shop_stockhistory_changelist' %}" class="nav-item">
+            <span><i data-lucide="history"></i> Stock History</span>
+        </a>
+        <a href="{% url 'admin:shop_product_changelist' %}?stock__lt=10" class="nav-item">
+            <span><i data-lucide="alert-triangle"></i> Low Stock</span>
+        </a>
+    </div>
+
+    <div class="nav-group">
+        <h3>Reports</h3>
+        <a href="/admin/reports/sales/" class="nav-item">
+            <span><i data-lucide="bar-chart-3"></i> Sales Report</span>
+        </a>
+        <a href="/admin/reports/gst/" class="nav-item">
+            <span><i data-lucide="file-spreadsheet"></i> GST Report</span>
+        </a>
+        <a href="/admin/reports/payments/" class="nav-item">
+            <span><i data-lucide="pie-chart"></i> Payment Report</span>
         </a>
     </div>
 
