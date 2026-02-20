@@ -10,6 +10,8 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+from django.db.models import Avg
+
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=100)
@@ -27,6 +29,16 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('product_detail', kwargs={'slug': self.slug})
+
+    @property
+    def average_rating(self):
+        """Return float average rating (1-5) or 0 if no reviews."""
+        agg = self.reviews.aggregate(avg=Avg('rating'))
+        return round(agg['avg'] or 0, 1)
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -37,6 +49,21 @@ class Contact(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.phone}"
+
+
+class Review(models.Model):
+    """Product review/rating submitted by a customer."""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    name = models.CharField(max_length=100, blank=True, help_text="Optional visitor name")
+    rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.rating} stars for {self.product.name}"
 
 class Enquiry(models.Model):
 
@@ -203,3 +230,46 @@ class Invoice(models.Model):
 
     def __str__(self):
         return f"Invoice {self.invoice_number}"
+
+
+class Customer(models.Model):
+    """Optional lightweight customer model for CRM linking."""
+    name = models.CharField(max_length=150)
+    company = models.CharField(max_length=150, blank=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    address = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.company})" if self.company else self.name
+
+
+class Supplier(models.Model):
+    """Supplier/vendor record for inventory sourcing."""
+    name = models.CharField(max_length=150)
+    contact_name = models.CharField(max_length=150, blank=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    address = models.TextField(blank=True)
+    notes = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class StockHistory(models.Model):
+    """Lightweight stock history to track changes against products."""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='stock_histories')
+    change = models.IntegerField(help_text='Positive to add stock, negative to remove')
+    note = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.product.name}: {self.change} ({self.created_at.strftime('%Y-%m-%d')})"
