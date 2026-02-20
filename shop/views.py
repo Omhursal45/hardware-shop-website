@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
-from .models import Category,Product,Enquiry
-from django.shortcuts import get_object_or_404
+from .models import Category, Product, Enquiry, Review
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import Contact
 from datetime import timedelta
+from django.db.models import Avg
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
@@ -25,14 +26,38 @@ def home(request):
     return render(request, 'shop/home.html')
 
 def product_detail(request, slug):
-    product = Product.objects.get(slug=slug, is_available=True)
+    product = get_object_or_404(Product, slug=slug, is_available=True)
+    related = product.category.products.filter(is_available=True).exclude(id=product.id)[:4]
+    reviews = product.reviews.all()
+
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment', '').strip()
+        if rating and rating.isdigit() and 1 <= int(rating) <= 5:
+            Review.objects.create(
+                product=product,
+                name=name,
+                rating=int(rating),
+                comment=comment,
+            )
+            messages.success(request, 'Thank you for your review!')
+            return redirect(product.get_absolute_url())
+        else:
+            messages.error(request, 'Please provide a valid rating between 1 and 5.')
+
     return render(request, 'shop/product_details.html', {
-        'product' : product
+        'product': product,
+        'related_products': related,
+        'reviews': reviews,
     })
+
+
+
 
 def products(request):
     categories = Category.objects.filter(is_active=True)
-    products = Product.objects.filter(is_available=True)
+    products = Product.objects.filter(is_available=True).annotate(avg_rating=Avg('reviews__rating'))
 
     category_id = request.GET.get('category')
     if category_id:
