@@ -85,12 +85,6 @@
         <a href="{% url 'admin:shop_invoice_changelist' %}" class="nav-item">
             <span><i data-lucide="receipt"></i> Invoices</span>
         </a>
-        <a href="{% url 'admin:shop_payment_changelist' %}" class="nav-item">
-            <span><i data-lucide="credit-card"></i> Payments</span>
-        </a>
-        <a href="{% url 'admin:shop_customer_changelist' %}" class="nav-item">
-            <span><i data-lucide="users"></i> Customers</span>
-        </a>
     </div>
 
     <div class="nav-group">
@@ -100,12 +94,6 @@
         </a>
         <a href="{% url 'admin:shop_category_changelist' %}" class="nav-item">
             <span><i data-lucide="layers"></i> Categories</span>
-        </a>
-        <a href="{% url 'admin:shop_supplier_changelist' %}" class="nav-item">
-            <span><i data-lucide="truck"></i> Suppliers</span>
-        </a>
-        <a href="{% url 'admin:shop_stockhistory_changelist' %}" class="nav-item">
-            <span><i data-lucide="history"></i> Stock History</span>
         </a>
         <a href="{% url 'admin:shop_product_changelist' %}?stock__lt=10" class="nav-item">
             <span><i data-lucide="alert-triangle"></i> Low Stock</span>
