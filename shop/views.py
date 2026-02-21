@@ -53,8 +53,6 @@ def product_detail(request, slug):
     })
 
 
-
-
 def products(request):
     categories = Category.objects.filter(is_active=True)
     products = Product.objects.filter(is_available=True).annotate(avg_rating=Avg('reviews__rating'))
