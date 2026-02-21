@@ -1,8 +1,8 @@
-/* GLOBAL THEME VARIABLES */
+
 :root {
-    --primary: #FFC107;      /* Construction Gold */
+    --primary: #FFC107;      
     --primary-dark: #E6AC00;
-    --dark: #121416;         /* Corporate Charcoal */
+    --dark: #121416;         
     --dark-light: #1e2124;
     --text-main: #2d3436;
     --text-muted: #636e72;
@@ -12,7 +12,7 @@
     --font-main: 'Inter', sans-serif;
 }
 
-/* RESET & BASE - FORCING CONSISTENCY */
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body { 
@@ -23,7 +23,7 @@ body {
     overflow-x: hidden; 
 }
 
-/* FIXED CONTAINER: Forcing width to stop Bootstrap overrides */
+
 .container { 
     max-width: 1250px !important; 
     margin: 0 auto !important; 
@@ -34,7 +34,6 @@ body {
 a { text-decoration: none; transition: 0.3s; }
 ul { list-style: none; }
 
-/* TOP BAR */
 .top-bar { background: var(--dark); color: rgba(255,255,255,0.7); padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .top-bar-flex { display: flex !important; justify-content: space-between; align-items: center; }
 .top-info span { margin-right: 20px; }
@@ -42,7 +41,7 @@ ul { list-style: none; }
 .top-social a { color: rgba(255,255,255,0.7); margin-left: 15px; font-size: 14px; }
 .top-social a:hover { color: var(--primary); }
 
-/* HEADER */
+
 .header { padding: 25px 0; background: var(--white); border-bottom: 1px solid var(--border); }
 .header-flex { display: flex !important; justify-content: space-between; align-items: center; gap: 30px; }
 
@@ -59,7 +58,7 @@ ul { list-style: none; }
 .support-text small { display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
 .support-text strong { font-size: 16px; color: var(--dark); }
 
-/* --- NAVBAR - LOCKED HEIGHT TO PREVENT EXTENDING --- */
+
 .navbar { 
     background: var(--white); 
     position: sticky; 
@@ -67,7 +66,6 @@ ul { list-style: none; }
     z-index: 1000; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
     width: 100%;
-    /* Forced height to prevent Bootstrap from stretching the bar */
     height: 70px !important; 
     padding: 0 !important;   
     display: flex !important;
@@ -78,7 +76,7 @@ ul { list-style: none; }
     display: flex !important; 
     justify-content: space-between !important; 
     align-items: center !important; 
-    height: 70px !important; /* Must match navbar height */
+    height: 70px !important; 
     width: 100% !important;
 }
 
@@ -98,19 +96,19 @@ ul { list-style: none; }
 
 .nav-links li a { 
     display: flex !important; 
-    align-items: center !important; /* Centers text vertically */
+    align-items: center !important; 
     padding: 0 20px !important; 
     height: 100% !important;
     color: var(--dark); 
     font-weight: 600; 
     font-size: 15px; 
     position: relative; 
-    line-height: normal !important; /* Resets Bootstrap line-height */
+    line-height: normal !important; 
 }
 
 .nav-links li a:hover, .nav-links li a.active { color: var(--primary-dark); }
 
-/* Active indicator line locked to the very bottom */
+
 .nav-links li a.active::after { 
     content: ''; 
     position: absolute; 
@@ -132,12 +130,12 @@ ul { list-style: none; }
     align-items: center !important;
 }
 
-/* FOOTER */
+
 .footer { background: var(--dark); color: var(--white); padding: 80px 0 0; margin-top: 50px; }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; padding-bottom: 60px; }
 .footer-bottom { background: #0b0c0d; padding: 25px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
 
-/* RESPONSIVE */
+
 @media (max-width: 992px) {
     .header-flex { flex-direction: column; text-align: center; }
     .navbar { height: auto !important; }
@@ -146,12 +144,10 @@ ul { list-style: none; }
     .nav-links li a { height: 45px !important; padding: 10px 0 !important; }
 }
 
-/* ... [KEEP ALL YOUR PREVIOUS GLOBAL THEME VARIABLES] ... */
 
-/* HELPER CLASSES */
 .show-mobile { display: none; }
 
-/* NAVBAR RESPONSIVE LOGIC */
+
 .menu-toggle {
     display: none;
     background: var(--dark);
@@ -163,14 +159,12 @@ ul { list-style: none; }
     cursor: pointer;
 }
 
-/* star icons used in ratings */
 .fa-star, .fa-star-half-stroke {
     color: #f4c150;
 }
 
-/* TABLET & MOBILE BREAKPOINTS */
 @media (max-width: 992px) {
-    /* Stack Header Elements */
+    
     .header-flex { 
         flex-direction: column; 
         gap: 15px;
@@ -179,16 +173,15 @@ ul { list-style: none; }
     
     .header-search { width: 100%; max-width: 100%; }
     .hide-tablet { display: none; }
-
-    /* Navbar Mobile Styling */
+    
     .navbar { 
         height: auto !important; 
         padding: 10px 0 !important; 
-        position: relative; /* Context for absolute menu */
+        position: relative; 
     }
     
     .nav-flex { 
-        flex-direction: row !important; /* Keep Toggle and Quote button on one line */
+        flex-direction: row !important; 
         justify-content: space-between !important;
         height: auto !important; 
         padding: 0 20px;
@@ -196,20 +189,20 @@ ul { list-style: none; }
     
     .menu-toggle { 
         display: block; 
-        z-index: 1001; /* Stay above the menu */
+        z-index: 1001;
     }
     
     .nav-links {
         display: none !important; 
         flex-direction: column !important;
         position: absolute;
-        top: 100%; /* Sits exactly below the nav bar */
+        top: 100%; 
         left: 0;
         width: 100%;
-        background: var(--white) !important; /* Forces solid background */
+        background: var(--white) !important; 
         box-shadow: 0 15px 20px rgba(0,0,0,0.2);
         border-top: 1px solid var(--border);
-        z-index: 1000; /* Higher than hero and sidebar */
+        z-index: 1000; 
         padding: 10px 0 !important;
     }
 
@@ -226,10 +219,8 @@ ul { list-style: none; }
         width: 100%; 
         padding: 15px 25px !important; 
         height: auto !important;
-        background: var(--white); /* Ensure no transparency */
-    }
-    
-    /* Fix active indicator for mobile */
+        background: var(--white); 
+
     .nav-links li a.active::after {
         left: 0; 
         width: 5px; 
@@ -237,8 +228,6 @@ ul { list-style: none; }
         top: 0; 
         bottom: auto;
     }
-
-    /* Footer adjustments */
     .footer-grid { grid-template-columns: 1fr; gap: 40px; }
 }
 
@@ -286,4 +275,5 @@ ul { list-style: none; }
 
 .whatsapp-float:hover::after {
     opacity: 1;
+}
 }
