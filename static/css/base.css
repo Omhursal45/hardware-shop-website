@@ -163,6 +163,11 @@ ul { list-style: none; }
     cursor: pointer;
 }
 
+/* star icons used in ratings */
+.fa-star, .fa-star-half-stroke {
+    color: #f4c150;
+}
+
 /* TABLET & MOBILE BREAKPOINTS */
 @media (max-width: 992px) {
     /* Stack Header Elements */
