@@ -278,8 +278,10 @@ Message:
             customer_subject = "We Received Your Enquiry | Pashupatinath Marketing"
 
             customer_html = render_to_string(
-                "emails/customer_welcome.html",
-                {"name": name}
+                "emails/customer_enquiry.html",
+                {
+                    "name": name,
+                }
             )
 
             customer_text = f"""
