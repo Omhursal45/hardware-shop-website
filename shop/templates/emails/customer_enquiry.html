@@ -2,68 +2,136 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Thank You</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Reaching Out</title>
     <style>
+        
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
             margin: 0;
             padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
-        .container {
+
+        
+        .email-wrapper {
+            width: 100%;
+            padding: 40px 0;
+        }
+
+        .content-card {
             max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 0 auto;
             background-color: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
+
+        
+        .header-banner {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header-banner h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        
+        .body-content {
+            padding: 40px;
+            color: #374151;
+        }
+
         h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+            font-size: 22px;
+            color: #111827;
+            margin-top: 0;
         }
+
         p {
+            font-size: 16px;
             line-height: 1.6;
-            margin: 8px 0;
+            color: #4b5563;
+            margin-bottom: 24px;
         }
+
+        
+        .status-box {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #4f46e5;
+            margin-bottom: 24px;
+        }
+
+        
+        .btn {
+            display: inline-block;
+            background-color: #4f46e5;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        
         .footer {
-            margin-top: 20px;
+            padding: 20px 40px 40px;
+            text-align: center;
             font-size: 13px;
-            color: #777;
-            border-top: 1px solid #eaeaea;
-            padding-top: 10px;
+            color: #9ca3af;
+        }
+
+        .social-links {
+            margin-bottom: 15px;
+        }
+
+        
+        @media screen and (max-width: 600px) {
+            .content-card { width: 90% !important; }
+            .body-content { padding: 25px !important; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Hello {{ name|default:"Customer" }},</h2>
+    <div class="email-wrapper">
+        <div class="content-card">
+            
+            <div class="header-banner">
+                <h1>Pashupatinath Marketing</h1>
+            </div>
 
-        <p>
-            Thank you for contacting
-            <strong>Pashupatinath Marketing</strong>.
-        </p>
+            <div class="body-content">
+                <h2>Hello {{ name|default:"there" }},</h2>
+                
+                <p>We’ve received your enquiry and we're excited to help you grow. Our experts are already looking over your details.</p>
 
-        <p>
-            We have successfully received your enquiry.
-            Our team will review your request and get back to you
-            within <strong>24 hours</strong>.
-        </p>
+                <div class="status-box">
+                    <strong>Next Steps:</strong><br>
+                    You can expect a personalized response from our team within <strong>24 hours</strong>.
+                </div>
 
-        <p>
-            If your enquiry is urgent, feel free to reply to this email
-            or contact us directly.
-        </p>
+                <p>In the meantime, feel free to check out our latest case studies or reply directly to this thread if you have any urgent details to add.</p>
+                
+                <a href="https://yourwebsite.com" class="btn">Visit Our Website</a>
+            </div>
 
-        <p>
-            We appreciate your interest in our products and services.
-        </p>
-
-        <div class="footer">
-            © {% now "Y" %} Pashupatinath Marketing<br>
-            This is an automated email. Please do not share sensitive information.
+            <div class="footer">
+                <p style="margin-bottom: 10px;">&copy; {% now "Y" %} Pashupatinath Marketing. All rights reserved.</p>
+                <p>This is an automated confirmation. To protect your privacy, please do not share sensitive passwords via email.</p>
+            </div>
         </div>
     </div>
 </body>
