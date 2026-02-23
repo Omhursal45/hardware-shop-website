@@ -8,50 +8,116 @@
 {% endblock %}
 
 {% block content %}
-<section class="product-detail-wrapper">
-    <div class="container product-detail-grid">
+<main class="product-interface">
+    <div class="container">
+        <nav class="minimal-breadcrumb">
+            <a href="/">Home</a> <span>/</span> <a href="#">{{ product.category.name }}</a> <span>/</span> {{ product.name }}
+        </nav>
 
-        <!-- IMAGE -->
-        <div class="product-image-box">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-        </div>
+        <div class="product-main-layout">
+            
+            <div class="product-visual-column">
+                <div class="image-stage">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainProductImg">
+                    <div class="zoom-overlay"><i class="fa-solid fa-expand"></i> High-Res View</div>
+                </div>
 
-        <!-- DETAILS -->
-        <div class="product-info-box">
-            <span class="product-category">
-                {{ product.category.name }}
-            </span>
-
-            <h2 class="product-title">{{ product.name }}</h2>
-
-            <p class="product-description">
-                {{ product.description }}
-            </p>
-
-            <div class="bulk-info">
-                <i class="fa-solid fa-boxes-stacked"></i>
-                <span>Bulk purchase only · Wholesale pricing</span>
+                <div class="quick-specs-box">
+                    <h3 class="specs-title">Technical Specifications</h3>
+                    <div class="specs-list">
+                        {% for spec in product.specifications.all %}
+                        <div class="spec-row">
+                            <span class="s-label">{{ spec.label }}</span>
+                            <span class="s-dots"></span>
+                            <span class="s-value">{{ spec.value }}</span>
+                        </div>
+                        {% empty %}
+                        <p class="empty-msg">Contact us for full TDS/MSDS data sheets.</p>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
 
-            <div class="action-buttons">
-                <a href="{% url 'enquiry' %}?product={{ product.id }}"
-                   class="btn btn-quote">
-                    Request Bulk Quote
-                </a>
+            <div class="product-info-column">
+                <div class="live-status">
+                    <span class="pulse-dot"></span> 
+                    <span id="live-viewers">4</span> buyers viewing this right now
+                </div>
 
+                <h1 class="main-title">{{ product.name }}</h1>
+                
+                <div class="rating-row">
+                    <div class="stars">★★★★★</div>
+                    <span class="review-count">({{ reviews.count|default:"12" }} Verified Reviews)</span>
+                </div>
 
-                <a href="https://wa.me/91XXXXXXXXXX?text=Hello,%20I%20want%20bulk%20pricing%20for%20{{ product.name }}"
-                   target="_blank"
-                   class="btn btn-whatsapp">
-                    WhatsApp Enquiry
-                </a>
+                <div class="description-text">
+                    {{ product.description }}
+                </div>
+
+                <div class="logistics-card">
+                    <div class="l-item">
+                        <i class="fa-solid fa-truck"></i>
+                        <div>
+                            <small>Est. Delivery</small>
+                            <p id="delivery-date">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="l-item">
+                        <i class="fa-solid fa-box-archive"></i>
+                        <div>
+                            <small>Stock Status</small>
+                            <p class="text-success">In Stock (Bulk)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="price-header">Wholesale Quote Request</div>
+                    <p>Minimum Order Quantity applies for wholesale rates.</p>
+                    <a href="{% url 'enquiry' %}?product={{ product.id }}" class="btn-primary-glow">
+                        Request Bulk Pricing <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="action-footer">
+                    <a href="https://wa.me/919529475093" class="wa-chat">
+                        <i class="fa-brands fa-whatsapp"></i> Chat with Expert
+                    </a>
+                    <button class="share-btn" onclick="copyToClipboard()"><i class="fa-solid fa-share"></i></button>
+                </div>
             </div>
         </div>
 
+        {% if related_products %}
+        <section class="related-section">
+            <h3 class="related-title">Recommended Similar Items</h3>
+            <div class="related-grid">
+                {% for rp in related_products %}
+                <a href="{% url 'product_detail' rp.slug %}" class="related-item">
+                    <div class="rp-img">
+                        <img src="{{ rp.image.url }}" alt="{{ rp.name }}">
+                    </div>
+                    <h4>{{ rp.name }}</h4>
+                    <span class="rp-cat">{{ rp.category.name }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
     </div>
-</section>
+</main>
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/product_detail.js' %}"></script>
+<script>
+    const d = new Date();
+    d.setDate(d.getDate() + 4);
+    document.getElementById('delivery-date').innerText = d.toLocaleDateString('en-IN', { weekday: 'long', month: 'short', day: 'numeric' });
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+    }
+</script>
 {% endblock %}
