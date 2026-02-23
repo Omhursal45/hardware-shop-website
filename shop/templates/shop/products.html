@@ -8,64 +8,90 @@
 {% endblock %}
 
 {% block content %}
-<section class="catalog-wrapper">
-    <div class="container catalog-flex">
+<section class="catalog-interface">
+    <div class="container main-flex-container">
         
-        <!-- SIDE BAR -->
-        <aside class="side-nav">
-            <div class="side-nav-header">
-                <i class="fa-solid fa-list-ul"></i>
-                <span>Our Inventory</span>
-            </div>
-            <ul class="side-menu">
-                {% for category in categories %}
-                <li>
-                    <a href="?category={{ category.id }}">
-                        <i class="fa-solid fa-layer-group"></i>
-                        {{ category.name }}
+        <aside class="catalog-sidebar">
+            <div class="sidebar-sticky-wrapper">
+                <div class="sidebar-title">
+                    <i class="fa-solid fa-filter"></i>
+                    <span>Categories</span>
+                </div>
+                <nav class="category-nav">
+                    <a href="?" class="cat-link {% if not request.GET.category %}active{% endif %}">
+                        <i class="fa-solid fa-border-all"></i> All Materials
                     </a>
-                </li>
-                {% endfor %}
-            </ul>
+                    {% for category in categories %}
+                    <a href="?category={{ category.id }}" class="cat-link {% if request.GET.category == category.id|stringformat:'s' %}active{% endif %}">
+                        <i class="fa-solid fa-chevron-right"></i> {{ category.name }}
+                    </a>
+                    {% endfor %}
+                </nav>
+
+                <div class="sidebar-help-card">
+                    <i class="fa-solid fa-headset"></i>
+                    <p>Need custom sourcing?</p>
+                    <a href="https://wa.me/919529475093">Talk to Sales</a>
+                </div>
+            </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
-        <div class="catalog-main">
-            <div class="catalog-header-card">
-                <span class="sub-tag">Wholesale Inventory</span>
-                <h2>Construction <span class="highlight">Material Catalog</span></h2>
-                <p>
-                    Sourcing directly from top brands to ensure structural integrity
-                    and cost-efficiency.
-                </p>
-            </div>
+        <div class="catalog-content">
+            <header class="catalog-header">
+                <div class="header-text">
+                    <span class="badge-accent">Direct-from-Brand</span>
+                    <h1>Construction <span class="text-gradient">Inventory</span></h1>
+                    <p>Verified wholesale supplies for large-scale infrastructure and retail projects.</p>
+                </div>
+                <div class="catalog-stats">
+                    <div class="stat-item"><strong>{{ products.count }}</strong> Items</div>
+                    <div class="stat-item"><i class="fa-solid fa-truck-ramp-box"></i> Pan-India</div>
+                </div>
+            </header>
 
-            <div class="products-grid">
+            <div class="material-grid">
                 {% for product in products %}
-               <div class="material-card">
-    <div class="material-img">
-        <a href="{% url 'product_detail' product.slug %}">
-            <img src="{{ product.image.url }}" alt="{{ product.id }}">
-        </a>
-        <span class="material-badge">Bulk Rates</span>
-    </div>
+                <div class="material-card">
+                <div class="card-visual">
+                    <a href="{% url 'product_detail' product.slug %}" class="img-container">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+                    </a>
+                    <div class="card-badges">
+                <span class="badge-wholesale">Wholesale</span>
+            </div>
+        </div>
 
+                    <div class="card-details">
+                        <div class="details-top">
+                            <span class="cat-pill">{{ product.category.name }}</span>
+                            <h3><a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a></h3>
+                            
+                            {% with rating=product.average_rating %}
+                            <div class="mini-rating">
+                                <span class="stars">{% if rating %}★ {{ rating|floatformat:1 }}{% else %}★ 5.0{% endif %}</span>
+                                <span class="verified"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                            {% endwith %}
+                        </div>
 
-                    <div class="material-body">
-                        <span class="material-cat">{{ product.category.name }}</span>
-                        <h3>{{ product.name }}</h3>
-                        <p>{{ product.description }}</p>
+                        <p class="description-snippet">{{ product.description|truncatewords:15 }}</p>
 
-                        <div class="material-footer">
-                            <span class="price-info">Wholesale Only</span>
-                            <a href="{% url 'enquiry' %}?product={{ product.id }}" class="btn-action-sm">
-                                Get Quote
+                        <div class="card-footer">
+                            <div class="availability">
+                                <i class="fa-solid fa-warehouse"></i> <span>Ready Stock</span>
+                            </div>
+                            <a href="{% url 'enquiry' %}?product={{ product.id }}" class="btn-quote-sm">
+                                Get Quote <i class="fa-solid fa-paper-plane"></i>
                             </a>
                         </div>
                     </div>
                 </div>
                 {% empty %}
-                <p>No products available.</p>
+                <div class="empty-state">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <p>No materials found in this category.</p>
+                    <a href="?" class="btn-reset">View All Inventory</a>
+                </div>
                 {% endfor %}
             </div>
         </div>
