@@ -273,3 +273,16 @@ class StockHistory(models.Model):
 
     def __str__(self):
         return f"{self.product.name}: {self.change} ({self.created_at.strftime('%Y-%m-%d')})"
+
+class TechnicalSpecification(models.Model):
+    """Dynamic technical details for products (e.g., Gauge, Material, Voltage)."""
+    product = models.ForeignKey(
+        Product, 
+        on_delete=models.CASCADE, 
+        related_name='specifications'
+    )
+    label = models.CharField(max_length=100, help_text="e.g., Material, Head Style, Power")
+    value = models.CharField(max_length=255, help_text="e.g., Hardened Steel, Flat Head, 500W")
+
+    def __str__(self):
+        return f"{self.label}: {self.value}"
