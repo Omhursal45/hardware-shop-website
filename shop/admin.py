@@ -5,7 +5,7 @@ from datetime import timezone
 
 from django.http import HttpResponse
 from django.utils.timezone import now
-from .models import Category, Product, Enquiry, Contact
+from .models import Category, Product, Enquiry, Contact, TechnicalSpecification, Quotation, Order, Invoice
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from django.utils.html import format_html
@@ -17,14 +17,19 @@ from .models import Quotation,Order,Invoice
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
+class TechnicalSpecificationInline(admin.TabularInline):
+    model = TechnicalSpecification
+    extra = 2  # Allows adding 2 specs by default
+    classes = ('collapse',)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'is_available', 'created_at')
+    list_display = ('name', 'category', 'is_available','average_rating','created_at')
     list_filter = ('category', 'is_available')
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
 
+    inlines = [TechnicalSpecificationInline]
 
 
 
@@ -34,7 +39,9 @@ class EnquiryAdmin(admin.ModelAdmin):
         "name",
         "phone",
         "source",
-        "status",
+        "status_badge",
+        "priority_badge",
+        "followup_status",
         "product",
         "created_at",
     )
