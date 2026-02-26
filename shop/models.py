@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
+from datetime import timedelta
 from decimal import Decimal
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -203,8 +204,8 @@ class Invoice(models.Model):
         ("overdue", "Overdue"),
     ]
 
-    customer_name = models.CharField(max_length=100)
-    customer_phone = models.CharField(max_length=20)
+    customer_name = models.CharField(max_length=100, default="Unknown")
+    customer_phone = models.CharField(max_length=20, default="")
 
     invoice_number = models.CharField(max_length=100, unique=True)
 
@@ -230,11 +231,11 @@ class Invoice(models.Model):
         super().save(*args, **kwargs)
         
         if not self.due_date:
-            self.due_date = self.issue_date + timezone.timedelta(days=7)
+            self.due_date = self.issue_date + timedelta(days=7)
         
         if creating and not self.invoice_number:
-            self.invoice_number = f"INV-{timezone.now().strftime('%Y%m%d')}-{self.pk:05}"
-            super().save(update_fields = ["invoice_number"])
+            self.invoice_number = f"INV-{timezone.now().strftime('%Y%m%d')}-{self.pk:05d}"
+            super().save(update_fields = ["invoice_number", "due_date"])
             
 
     def __str__(self):
