@@ -11,15 +11,13 @@ from openpyxl.styles import Font
 from django.utils.html import format_html
 from .models import Quotation,Order,Invoice
 
-
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 class TechnicalSpecificationInline(admin.TabularInline):
     model = TechnicalSpecification
-    extra = 2  # Allows adding 2 specs by default
+    extra = 2 
     classes = ('collapse',)
 
 @admin.register(Product)
@@ -31,8 +29,6 @@ class ProductAdmin(admin.ModelAdmin):
 
     inlines = [TechnicalSpecificationInline]
 
-
-
 @admin.register(Enquiry)
 class EnquiryAdmin(admin.ModelAdmin):
     list_display = (
@@ -41,7 +37,7 @@ class EnquiryAdmin(admin.ModelAdmin):
         "source",
         "status_badge",
         "priority_badge",
-        "followup_status",
+        "status",
         "product",
         "created_at",
     )
@@ -84,7 +80,6 @@ class EnquiryAdmin(admin.ModelAdmin):
         )
     
     status_badge.short_description = "Status"
-
 
     def priority_badge(self,obj):
         colors = {
@@ -131,14 +126,12 @@ class EnquiryAdmin(admin.ModelAdmin):
             "Follow-Up Date"
             "Created At",
         ]
-
-        # Header row
+        
         for col_num, column_title in enumerate(columns, 1):
             cell = worksheet.cell(row=1, column=col_num)
             cell.value = column_title
             cell.font = Font(bold=True)
-
-        # Data rows
+            
         for row_num, enquiry in enumerate(queryset, 2):
             worksheet.cell(row=row_num, column=1).value = enquiry.id
             worksheet.cell(row=row_num, column=2).value = enquiry.name
@@ -181,8 +174,6 @@ class ContactAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at",)
     
     
-
-
 admin.site.site_header = "Pashupathinath Marketing Admin"
 admin.site.site_title = "PM Admin"
 admin.site.index_title = "Dashboard"
@@ -256,15 +247,17 @@ class OrderAdmin(admin.ModelAdmin):
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
         "invoice_number",
-        "order",
+        "customer_name",
+        "customer_phone",
         "total_amount",
+        "colored_status",
         "status",
         "issue_date",
         "due_date",
     )
     list_filter = ("status", "issue_date")
-    search_fields = ("invoice_number",)
-    readonly_fields = ("created_at",)
+    search_fields = ("invoice_number","customer_name", "customer_phone")
+    readonly_fields = ("created_at","invoice_number")
 
     def colored_status(self, obj):
         colors = {
@@ -278,3 +271,4 @@ class InvoiceAdmin(admin.ModelAdmin):
             colors.get(obj.status, "black"),
             obj.status.upper(),
         )
+    colored_status.short_description = "Status"
