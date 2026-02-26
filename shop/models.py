@@ -203,11 +203,8 @@ class Invoice(models.Model):
         ("overdue", "Overdue"),
     ]
 
-    order = models.OneToOneField(
-        "Order",
-        on_delete=models.CASCADE,
-        related_name="invoice"
-    )
+    customer_name = models.CharField(max_length=100)
+    customer_phone = models.CharField(max_length=20)
 
     invoice_number = models.CharField(max_length=100, unique=True)
 
@@ -227,6 +224,15 @@ class Invoice(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+        super().save(*args, **kwargs)
+        
+        if creating and not self.invoice_number:
+            self.invoice_number = f"INV-{timezone.now().strftime('%Y%m%d')}-{self.pk:05}"
+            super().save(update_fields = ["invoice_number"])
+            
 
     def __str__(self):
         return f"Invoice {self.invoice_number}"
