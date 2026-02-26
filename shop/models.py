@@ -229,6 +229,9 @@ class Invoice(models.Model):
         creating = self.pk is None
         super().save(*args, **kwargs)
         
+        if not self.due_date:
+            self.due_date = self.issue_date + timezone.timedelta(days=7)
+        
         if creating and not self.invoice_number:
             self.invoice_number = f"INV-{timezone.now().strftime('%Y%m%d')}-{self.pk:05}"
             super().save(update_fields = ["invoice_number"])
