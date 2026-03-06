@@ -1,0 +1,7 @@
+Django==5.0.1
+mysqlclient
+gunicorn
+pymysql
+python-dotenv
+openpyxl
+reportlab
