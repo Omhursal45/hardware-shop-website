@@ -57,7 +57,7 @@
                     <textarea id="message" name="message" rows="4" placeholder="Mention shipping destination, customization, or urgency..."></textarea>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
+                <button type="submit"  class="submit-btn" id="submitBtn" onclick="this.disabled=true; this.form.submit();">
                     <span class="btn-text">Send Request</span>
                     <div class="spinner" style="display: none;"></div>
                 </button>
