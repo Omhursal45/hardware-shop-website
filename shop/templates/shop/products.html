@@ -89,8 +89,13 @@
                 {% empty %}
                 <div class="empty-state">
                     <i class="fa-solid fa-magnifying-glass"></i>
+                    {% if request.GET.q %}
+                    <p>No materials found matching "{{ request.GET.q }}".</p>
+                    <a href="?" class="btn-reset">View All Inventory</a>
+                    {% else %}
                     <p>No materials found in this category.</p>
                     <a href="?" class="btn-reset">View All Inventory</a>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
