@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.http import JsonResponse
 from .models import Contact
 from datetime import timedelta
 from django.db.models import Avg
@@ -57,9 +58,15 @@ def products(request):
     categories = Category.objects.filter(is_active=True)
     products = Product.objects.filter(is_available=True).annotate(avg_rating=Avg('reviews__rating'))
 
+    # filter by category if provided
     category_id = request.GET.get('category')
     if category_id:
         products = products.filter(category_id=category_id)
+
+    # search query from header
+    query = request.GET.get('q', '').strip()
+    if query:
+        products = products.filter(name__icontains=query)
 
     return render(request, 'shop/products.html', {
         'categories': categories,
@@ -69,6 +76,25 @@ def products(request):
 
 def about(request):
     return render(request, 'shop/about.html')
+
+
+def product_autocomplete(request):
+    """Return JSON list of matching products for autocomplete.
+
+    Each item is a dict containing ``name`` and ``slug`` so the
+    frontend can render suggestions and link directly to the detail
+    page when clicked.
+    """
+    q = request.GET.get('q', '').strip()
+    results = []
+    if q:
+        matches = Product.objects.filter(
+            name__icontains=q,
+            is_available=True
+        ).order_by('name')[:10]
+        results = [{'name': p.name, 'slug': p.slug} for p in matches]
+
+    return JsonResponse(results, safe=False)
 
 # def contact(request):
 #     if request.method == 'POST':
