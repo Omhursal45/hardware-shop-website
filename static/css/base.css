@@ -48,10 +48,38 @@ ul { list-style: none; }
 .logo h1 { font-size: 26px; color: var(--dark); font-weight: 800; text-transform: uppercase; letter-spacing: -1px; }
 .logo h1 span { color: var(--primary); }
 
-.header-search { flex: 1; max-width: 500px; }
+.header-search { flex: 1; max-width: 500px; position: relative; }
 .header-search form { display: flex; border: 2px solid var(--dark); border-radius: 6px; overflow: hidden; }
 .header-search input { flex: 1; padding: 12px 15px; border: none; outline: none; font-size: 14px; }
 .header-search button { background: var(--dark); color: var(--primary); border: none; padding: 0 20px; cursor: pointer; font-size: 18px; }
+
+/* autocomplete suggestion box */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1001;
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.search-suggestions li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+}
+.search-suggestions li:last-child {
+    border-bottom: none;
+}
+.search-suggestions li:hover {
+    background: var(--light);
+}
 
 .header-support { display: flex !important; align-items: center; gap: 12px; }
 .support-icon { font-size: 28px; color: var(--primary); }
