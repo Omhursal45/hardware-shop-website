@@ -36,9 +36,10 @@
         </div>
 
         <div class="header-search">
-            <form action="{% url 'products' %}" method="GET">
-                <input type="text" name="q" placeholder="Search Materials...">
+            <form action="{% url 'products' %}" method="GET" id="search-form">
+                <input type="text" name="q" id="search-input" value="{{ request.GET.q|default_if_none:'' }}" placeholder="Search Materials..." autocomplete="off" data-autocomplete-url="{% url 'product_autocomplete' %}">
                 <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <ul id="search-suggestions" class="search-suggestions"></ul>
             </form>
         </div>
 
@@ -123,9 +124,8 @@
 <i class="fab fa-whatsapp whatsapp-icon"></i>
 </a>
 
-{% block extra_js %}
 <script src="{% static 'js/base.js' %}"></script>
-{% endblock %}
+{% block extra_js %}{% endblock %}
 
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
