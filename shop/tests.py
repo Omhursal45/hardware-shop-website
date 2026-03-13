@@ -38,16 +38,13 @@ class SearchTests(TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertIsInstance(data, list)
-        # should contain nails product
         names = [item['name'] for item in data]
         self.assertIn('Nails', names)
 
     def test_base_js_on_product_detail(self):
-        # create an additional product
         drill = Product.objects.create(category=self.category, name="Drill", image="products/drill.jpg")
         resp = self.client.get(f'/products/{drill.slug}/')
         self.assertEqual(resp.status_code, 200)
         html = resp.content.decode('utf-8')
-        # check that base.js and search input are included
         self.assertIn('js/base.js', html)
         self.assertIn('id="search-input"', html)
