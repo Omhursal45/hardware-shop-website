@@ -6,7 +6,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('products/', views.products, name='products'),
     path('products/<slug:slug>/', views.product_detail, name='product_detail'),
-    # endpoint for AJAX-powered search suggestions
     path('autocomplete/', views.product_autocomplete, name='product_autocomplete'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
