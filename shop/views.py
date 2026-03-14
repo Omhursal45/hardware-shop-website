@@ -10,6 +10,9 @@ from .models import Contact
 from datetime import timedelta
 from django.db.models import Avg
 
+
+from django.contrib.auth.forms import UserCreationForm
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
 from django.db.models import Count,Sum
@@ -25,6 +28,17 @@ from django.http import HttpResponse
 
 def home(request):
     return render(request, 'shop/home.html')
+
+def signup_view(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+
+    return render(request, "signup.html", {"form": form})
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_available=True)
