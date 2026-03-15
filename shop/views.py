@@ -13,6 +13,7 @@ from django.db.models import Avg
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
@@ -55,6 +56,12 @@ def login_view(request):
             return redirect("home")
 
     return render(request, "login.html")
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_available=True)
