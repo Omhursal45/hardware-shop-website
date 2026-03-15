@@ -14,6 +14,8 @@ from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
@@ -57,11 +59,13 @@ def login_view(request):
 
     return render(request, "login.html")
 
-
-
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+@login_required
+def cart_view(request):
+    return render(request, "cart.html")
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_available=True)
