@@ -12,6 +12,7 @@ from django.db.models import Avg
 
 
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import now
@@ -39,6 +40,21 @@ def signup_view(request):
         form = UserCreationForm()
 
     return render(request, "signup.html", {"form": form})
+
+
+def login_view(request):
+
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect("home")
+
+    return render(request, "login.html")
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_available=True)
