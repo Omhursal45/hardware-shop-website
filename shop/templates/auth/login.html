@@ -1,24 +1,95 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-<h2>Login</h2>
+    .login-card {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
 
-<form method="POST">
-    {% csrf_token %}
+    .login-card h2 {
+        margin-bottom: 1.5rem;
+        color: #333;
+        text-align: center;
+        font-weight: 600;
+    }
 
-    <label>Username</label>
-    <input type="text" name="username" required>
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
 
-    <br><br>
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
 
-    <label>Password</label>
-    <input type="password" name="password" required>
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-sizing: border-box; /* Ensures padding doesn't affect width */
+        transition: border-color 0.3s ease;
+    }
 
-    <br><br>
+    .form-group input:focus {
+        outline: none;
+        border-color: #4A90E2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
 
-    <button type="submit">Login</button>
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #4A90E2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1rem;
+    }
 
-</form>
+    .login-btn:hover {
+        background-color: #357ABD;
+    }
+</style>
 
+<div class="login-container">
+    <div class="login-card">
+        <h2>Welcome Back</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
