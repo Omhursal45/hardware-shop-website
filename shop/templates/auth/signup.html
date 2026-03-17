@@ -1,29 +1,131 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #f8f9fa; /* Subtle background contrast */
+    }
 
-<h2>Signup</h2>
+    .auth-card {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        max-width: 420px;
+    }
 
-<form method="POST">
-    {% csrf_token %}
-    
-    <label>Username</label>
-    <input type="text" name="username" required>
+    .auth-card h2 {
+        margin-bottom: 0.5rem;
+        color: #1a1a1a;
+        text-align: center;
+        font-size: 1.75rem;
+    }
 
-    <br><br>
+    .auth-subtitle {
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
 
-    <label>Password</label>
-    <input type="password" name="password1" required>
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
 
-    <br><br>
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #444;
+        font-size: 0.85rem;
+    }
 
-    <label>Confirm Password</label>
-    <input type="password" name="password2" required>
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+    }
 
-    <br><br>
+    .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
 
-    <button type="submit">Create Account</button>
+    .submit-btn {
+        width: 100%;
+        padding: 0.8rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 0.5rem;
+    }
 
-</form>
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
 
+    .auth-footer {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .auth-footer a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Create Account</h2>
+        <p class="auth-subtitle">Join us to get started</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a unique username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password1">Password</label>
+                <input type="password" id="password1" name="password1" placeholder="Enter a strong password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" name="password2" placeholder="Repeat your password" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Sign Up</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="{% url 'login' %}">Log In</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
