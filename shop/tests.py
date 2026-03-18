@@ -48,3 +48,4 @@ class SearchTests(TestCase):
         html = resp.content.decode('utf-8')
         self.assertIn('js/base.js', html)
         self.assertIn('id="search-input"', html)
+        
