@@ -57,7 +57,7 @@ def login_view(request):
             login(request, user)
             return redirect("home")
 
-    return render(request, "login.html")
+    return render(request, "auth/login.html")
 
 def logout_view(request):
     logout(request)
@@ -97,17 +97,15 @@ def product_detail(request, slug):
 def products(request):
     categories = Category.objects.filter(is_active=True)
     products = Product.objects.filter(is_available=True).annotate(avg_rating=Avg('reviews__rating'))
-
-    # filter by category if provided
+    
     category_id = request.GET.get('category')
     if category_id:
         products = products.filter(category_id=category_id)
-
-    # search query from header
+        
     query = request.GET.get('q', '').strip()
     if query:
         products = products.filter(name__icontains=query)
-
+        
     return render(request, 'shop/products.html', {
         'categories': categories,
         'products': products
