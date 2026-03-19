@@ -42,7 +42,7 @@ def signup_view(request):
     else:
         form = UserCreationForm()
 
-    return render(request, "signup.html", {"form": form})
+    return render(request, "auth/signup.html", {"form": form})
 
 
 def login_view(request):
