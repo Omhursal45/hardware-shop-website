@@ -117,12 +117,6 @@ def about(request):
 
 
 def product_autocomplete(request):
-    """Return JSON list of matching products for autocomplete.
-
-    Each item is a dict containing ``name`` and ``slug`` so the
-    frontend can render suggestions and link directly to the detail
-    page when clicked.
-    """
     q = request.GET.get('q', '').strip()
     results = []
     if q:
