@@ -490,7 +490,7 @@ def generate_quotation_pdf(request, quotation_id):
     elements.append(Spacer(1, 12))
 
     data = [
-        ["Product", enquiry.product.name if enquiry.product else "-"],
+        ["Product", enquiry.product.name if enquiry.product else "--"],
         ["Quantity", enquiry.quantity],
         ["Base Price", f"₹ {quotation.price}"],
         ["GST", f"{quotation.gst_percentage}%"],
