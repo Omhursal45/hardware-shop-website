@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from shop.views import admin_dashboard
+import sys
 
 urlpatterns = [
     path("admin/dashboard/",admin_dashboard),
@@ -26,6 +27,10 @@ urlpatterns = [
     path('', include('shop.urls')),
 ]
 
-if settings.DEBUG:
+serve_dev_assets = settings.DEBUG or "runserver" in sys.argv
+
+if serve_dev_assets:
+    static_dir = settings.STATICFILES_DIRS[0] if getattr(settings, "STATICFILES_DIRS", None) else settings.STATIC_ROOT
+    urlpatterns += static(settings.STATIC_URL, document_root=static_dir)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
