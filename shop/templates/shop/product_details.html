@@ -11,15 +11,14 @@
 <main class="product-interface">
     <div class="container">
         <nav class="minimal-breadcrumb">
-            <a href="/">Home</a> <span>/</span> <a href="#">{{ product.category.name }}</a> <span>/</span> {{ product.name }}
+            <a href="{% url 'home' %}">Home</a> <span>/</span> <a href="{% url 'products' %}?category={{ product.category.id }}">{{ product.category.name }}</a> <span>/</span> {{ product.name }}
         </nav>
 
         <div class="product-main-layout">
-            
             <div class="product-visual-column">
                 <div class="image-stage">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainProductImg">
-                    <div class="zoom-overlay"><i class="fa-solid fa-expand"></i> High-Res View</div>
+                    <div class="zoom-overlay"><i class="fa-solid fa-box-open"></i> Wholesale-ready listing</div>
                 </div>
 
                 <div class="quick-specs-box">
@@ -39,9 +38,12 @@
             </div>
 
             <div class="product-info-column">
-                <div class="live-status">
-                    <span class="pulse-dot"></span> 
-                    <span id="live-viewers">4</span> buyers viewing this right now
+                <div class="product-topline">
+                    <span class="catalog-label">{{ product.category.name }}</span>
+                    <div class="live-status">
+                        <span class="pulse-dot"></span>
+                        Business buyers actively enquire on this line
+                    </div>
                 </div>
 
                 <h1 class="main-title">{{ product.name }}</h1>
@@ -72,9 +74,15 @@
                     </div>
                 </div>
 
+                <div class="business-points">
+                    <span><i class="fa-solid fa-circle-check"></i> MOQ-based pricing available</span>
+                    <span><i class="fa-solid fa-circle-check"></i> Quote tailored to quantity and destination</span>
+                    <span><i class="fa-solid fa-circle-check"></i> Suitable for project and trade enquiries</span>
+                </div>
+
                 <div class="pricing-card">
                     <div class="price-header">Wholesale Quote Request</div>
-                    <p>Minimum Order Quantity applies for wholesale rates.</p>
+                    <p>Submit your quantity and delivery details to receive a business quotation for this product.</p>
                     <a href="{% url 'enquiry' %}?product={{ product.id }}" class="btn-primary-glow">
                         Request Bulk Pricing <i class="fa-solid fa-arrow-right"></i>
                     </a>
@@ -84,7 +92,10 @@
                     <a href="https://wa.me/919529475093" class="wa-chat">
                         <i class="fa-brands fa-whatsapp"></i> Chat with Expert
                     </a>
-                    <button class="share-btn" onclick="copyToClipboard()"><i class="fa-solid fa-share"></i></button>
+                    <button class="share-btn" type="button" id="shareBtn" onclick="copyToClipboard()">
+                        <i class="fa-solid fa-share"></i>
+                    </button>
+                    <div class="share-feedback" id="shareFeedback" aria-live="polite"></div>
                 </div>
             </div>
         </div>
@@ -116,8 +127,19 @@
     document.getElementById('delivery-date').innerText = d.toLocaleDateString('en-IN', { weekday: 'long', month: 'short', day: 'numeric' });
 
     function copyToClipboard() {
-        navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
+        const url = window.location.href;
+        const feedbackEl = document.getElementById('shareFeedback');
+        navigator.clipboard.writeText(url).then(() => {
+            if (feedbackEl) {
+                feedbackEl.textContent = 'Link copied to clipboard.';
+                setTimeout(() => (feedbackEl.textContent = ''), 2500);
+            }
+        }).catch(() => {
+            if (feedbackEl) {
+                feedbackEl.textContent = 'Copy failed. Please copy the URL manually.';
+                setTimeout(() => (feedbackEl.textContent = ''), 3500);
+            }
+        });
     }
 </script>
 {% endblock %}
