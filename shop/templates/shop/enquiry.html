@@ -16,13 +16,27 @@
             <p class="subtitle">Get a custom quote within 24 hours.</p>
         </div>
 
+        {% if messages %}
+        <div class="enquiry-messages" role="status" aria-live="polite">
+            {% for message in messages %}
+                <div class="enquiry-message enquiry-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="enquiry-grid">
             <div class="product-summary">
                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-thumb">
                 <div class="product-info">
                     <small>Inquiring about:</small>
                     <h3>{{ product.name }}</h3>
-                    <p class="sku">SKU: {{ product.sku|default:"N/A" }}</p>
+                    <p class="sku">Category: {{ product.category.name }}</p>
+                    <div class="enquiry-hint">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Share quantity and destination for faster pricing.
+                    </div>
                 </div>
             </div>
 
