@@ -31,7 +31,8 @@ from .models import Quotation
 from django.http import HttpResponse
 
 def home(request):
-    return render(request, 'shop/home.html')
+    categories = Category.objects.filter(is_active=True).order_by("name")[:6]
+    return render(request, 'shop/home.html', {"categories": categories})
 
 def signup_view(request):
     if request.method == "POST":
@@ -147,13 +148,10 @@ def enquiry(request):
         product = get_object_or_404(Product, id=product_id)
 
     if request.method == "POST":
-        print("🔥 PRODUCT ENQUIRY HIT 🔥")
-        print("POST DATA:", request.POST)
-
         product_id = request.POST.get("product_id")
         if not product_id:
             messages.error(request, "Invalid product.")
-            return redirect(request.path)
+            return redirect("enquiry")
 
         product = get_object_or_404(Product, id=product_id)
 
@@ -165,7 +163,7 @@ def enquiry(request):
 
         if not all([name, phone, quantity]):
             messages.error(request, "Please fill all required fields.")
-            return redirect(request.path)
+            return redirect(f"{request.path}?product={product_id}")
 
         enquiry_obj = Enquiry.objects.create(
             product=product,
@@ -176,8 +174,6 @@ def enquiry(request):
             message=message,
             source="product",  
         )
-
-        print("✅ ENQUIRY SAVED:", enquiry_obj.id)
 
         try:
             admin_subject = f"New Product Enquiry – {product.name}"
@@ -217,10 +213,9 @@ Message:
             email_admin.attach_alternative(admin_html, "text/html")
             email_admin.send(fail_silently=True)
 
-            print("✅ ADMIN EMAIL SENT")
-
         except Exception as e:
-            print("❌ ADMIN EMAIL ERROR:", e)
+            # If admin email fails, still allow the user to proceed.
+            pass
 
         if email:
             try:
@@ -253,10 +248,9 @@ Pashupatinath Marketing
                 email_customer.attach_alternative(customer_html, "text/html")
                 email_customer.send(fail_silently=True)
 
-                print("✅ CUSTOMER EMAIL SENT")
-
             except Exception as e:
-                print("❌ CUSTOMER EMAIL ERROR:", e)
+                # If customer email fails, still show success to the user.
+                pass
 
         messages.success(
             request,
@@ -273,9 +267,6 @@ Pashupatinath Marketing
 
 def contact(request):
     if request.method == "POST":
-        print("🔥 CONTACT FORM HIT 🔥")
-        print("POST DATA:", request.POST)
-
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         email = request.POST.get("email")
@@ -327,10 +318,8 @@ Message:
             email_admin.attach_alternative(admin_html, "text/html")
             email_admin.send()
 
-            print("✅ ADMIN EMAIL SENT")
-
         except Exception as e:
-            print("❌ ADMIN EMAIL FAILED:", e)
+            pass
             
         try:
             customer_subject = "We Received Your Enquiry | Pashupatinath Marketing"
@@ -361,10 +350,8 @@ Pashupatinath Marketing
             email_customer.attach_alternative(customer_html, "text/html")
             email_customer.send()
 
-            print("✅ CUSTOMER EMAIL SENT")
-
         except Exception as e:
-            print("❌ CUSTOMER EMAIL FAILED:", e)
+            pass
 
         messages.success(
             request,
@@ -374,6 +361,72 @@ Pashupatinath Marketing
 
     return render(request, "shop/contact.html")
 
+
+def faq(request):
+    return render(request, "shop/faq.html")
+
+
+def privacy(request):
+    return render(request, "shop/privacy.html")
+
+
+def terms(request):
+    return render(request, "shop/terms.html")
+
+
+def robots_txt(request):
+    host = f"{request.scheme}://{request.get_host}"
+    sitemap_url = f"{host}/sitemap.xml"
+    content = f"User-agent: *\nAllow: /\nSitemap: {sitemap_url}\n"
+    return HttpResponse(content, content_type="text/plain")
+
+
+def sitemap_xml(request):
+    host = f"{request.scheme}://{request.get_host}"
+
+    fixed_urls = [
+        (f"{host}/", None),
+        (f"{host}/products/", None),
+        (f"{host}/about/", None),
+        (f"{host}/contact/", None),
+        (f"{host}/faq/", None),
+        (f"{host}/privacy/", None),
+        (f"{host}/terms/", None),
+    ]
+
+    urls = []
+    for loc, lastmod in fixed_urls:
+        urls.append(
+            "<url>"
+            f"<loc>{loc}</loc>"
+            f"{f'<lastmod>{lastmod}</lastmod>' if lastmod else ''}"
+            "<changefreq>weekly</changefreq>"
+            "<priority>0.6</priority>"
+            "</url>"
+        )
+
+    products = Product.objects.filter(is_available=True).only("slug", "created_at")
+    for p in products:
+        if not p.slug:
+            continue
+        loc = f"{host}/products/{p.slug}/"
+        lastmod = p.created_at.date().isoformat() if p.created_at else None
+        urls.append(
+            "<url>"
+            f"<loc>{loc}</loc>"
+            f"{f'<lastmod>{lastmod}</lastmod>' if lastmod else ''}"
+            "<changefreq>daily</changefreq>"
+            "<priority>0.8</priority>"
+            "</url>"
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        + "".join(urls) +
+        "</urlset>"
+    )
+    return HttpResponse(xml, content_type="application/xml")
 
 
 @staff_member_required
