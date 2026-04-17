@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from dotenv import load_dotenv
 import os
+import sys
 load_dotenv()
 
 from pathlib import Path
@@ -28,7 +29,15 @@ SECRET_KEY = os.getenv(
     "unsafe-dev-key-change-in-production"
 )
 
-DEBUG = os.getenv("DEBUG", "True") == "True"
+def _env_bool(name, default=False):
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+# Default to debug mode while using local runserver, unless explicitly overridden.
+DEBUG = _env_bool("DEBUG", default=("runserver" in sys.argv))
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
@@ -49,6 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -148,14 +158,23 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-import os
-
 TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'shop/templates')]
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
