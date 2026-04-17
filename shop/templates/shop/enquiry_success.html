@@ -1,11 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enquiry.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="container py-5 text-center">
-    <h2>Thank You!</h2>
-    <p>Your bulk enquiry has been sent. Our team will contact you shortly.</p>
-    <a href="{% url 'products' %}" class="btn btn-primary mt-3">
-        Back to Products
-    </a>
-</div>
+<section class="enquiry-container">
+    <div class="enquiry-wrapper">
+    {% if messages %}
+    <div class="enquiry-messages" role="status" aria-live="polite" style="margin-bottom: 1.5rem;">
+        {% for message in messages %}
+            <div class="enquiry-message enquiry-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="form-header" style="text-align:center;">
+        <h2 style="margin-bottom: 10px;">Thank You!</h2>
+        <p style="margin-bottom: 20px;">Your bulk enquiry has been sent. Our team will contact you shortly.</p>
+        <a href="{% url 'products' %}" class="btn-quote-main" style="display:inline-flex; align-items:center; justify-content:center;">
+            <i class="fa-solid fa-arrow-left" aria-hidden="true" style="margin-right:10px;"></i>
+            Back to Products
+        </a>
+    </div>
+    </div>
+</section>
 {% endblock %}
