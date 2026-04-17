@@ -8,59 +8,63 @@
 {% endblock %}
 
 {% block content %}
-
 <section class="hero-section">
-    <div class="container hero-flex">
-        <!-- <aside class="side-nav">
-            <div class="side-nav-header">
-                <i class="fa-solid fa-list-ul"></i>
-                <span>Our Inventory</span>
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow">Wholesale supply partner</span>
+            <h1>Professional sourcing for construction, infrastructure, and trade buyers.</h1>
+            <p>Pashupatinath Marketing helps contractors, retailers, and procurement teams source reliable materials with fast quotes, dependable support, and coordinated delivery.</p>
+            <div class="hero-actions">
+                <a href="{% url 'products' %}" class="btn-solid">Explore Product Catalog</a>
+                <a href="{% url 'contact' %}" class="btn-glass">Request Bulk Quote</a>
             </div>
-            <ul class="side-menu">
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-hard-hat"></i> Cement & Concrete</a></li>
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-layer-group"></i> TMT Steel & Rods</a></li>
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-mountain"></i> Sand & Aggregates</a></li>
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-cubes"></i> Bricks & Blocks</a></li>
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-faucet"></i> Plumbing Materials</a></li>
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-bolt"></i> Electrical Fittings</a></li>
-                <li><a href="{% url 'products' %}"><i class="fa-solid fa-paint-roller"></i> Paints & Chemicals</a></li>
-            </ul>
-        </aside> -->
+            <div class="hero-points">
+                <span><i class="fa-solid fa-circle-check"></i> Transparent wholesale pricing</span>
+                <span><i class="fa-solid fa-circle-check"></i> Pan-India business support</span>
+                <span><i class="fa-solid fa-circle-check"></i> 24-hour quote response</span>
+            </div>
+        </div>
 
-        <div class="hero-main">
-            <div class="hero-overlay-text">
-                <span class="sub-tag">ISO 9001:2015 Certified Supplier</span>
-                <h1>Precision Materials for <br><span class="highlight">Mega Projects</span></h1>
-                <p>Pashupatinath Marketing provides verified, construction-grade materials at wholesale rates for developers and contractors nationwide.</p>
-                <div class="hero-actions">
-                    <a href="{% url 'products' %}" class="btn-solid">Browse Catalog</a>
-                    <a href="{% url 'enquiry' %}" class="btn-glass">Request Quote</a>
+        <div class="hero-panel">
+            <div class="hero-card hero-card-main">
+                <div>
+                    <small>Procurement Support</small>
+                    <h3>Built for bulk orders and repeat buyers</h3>
+                    <p>From enquiry to supply coordination, the process is designed for business customers who need speed, trust, and clarity.</p>
+                </div>
+                <img src="{% static 'images/product/worker1.png' %}" class="hero-visual" alt="Wholesale supply support">
+            </div>
+            <div class="hero-mini-grid">
+                <div class="hero-mini-card">
+                    <strong>500+</strong>
+                    <span>Business enquiries handled</span>
+                </div>
+                <div class="hero-mini-card">
+                    <strong>50+</strong>
+                    <span>Categories and sourced lines</span>
                 </div>
             </div>
-            <img src="{% static 'images/product/worker1.png' %}" class="hero-visual" alt="Construction Management">
         </div>
     </div>
 </section>
 
 <section class="metrics-bar">
-    <div class="container">
-        <div class="metrics-grid">
-            <div class="metric">
-                <h3>09+</h3>
-                <p>Years Industry Presence</p>
-            </div>
-            <div class="metric">
-                <h3>2k+</h3>
-                <p>Sites Supplied</p>
-            </div>
-            <div class="metric">
-                <h3>50+</h3>
-                <p>Premium Brands</p>
-            </div>
-            <div class="metric">
-                <h3>24h</h3>
-                <p>Response Time</p>
-            </div>
+    <div class="container metrics-grid">
+        <div class="metric">
+            <h3>09+</h3>
+            <p>Years in wholesale supply</p>
+        </div>
+        <div class="metric">
+            <h3>2k+</h3>
+            <p>Orders and supply enquiries supported</p>
+        </div>
+        <div class="metric">
+            <h3>24h</h3>
+            <p>Average response window</p>
+        </div>
+        <div class="metric">
+            <h3>Pan-India</h3>
+            <p>Project and trade delivery coordination</p>
         </div>
     </div>
 </section>
@@ -68,52 +72,90 @@
 <section class="solutions-grid">
     <div class="container">
         <div class="section-header">
-            <span class="accent-text">What we offer</span>
-            <h2>Material Solutions</h2>
+            <div>
+                <span class="accent-text">Catalog overview</span>
+                <h2>Product categories for serious buyers</h2>
+            </div>
+            <a href="{% url 'products' %}" class="section-link">See full catalog <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <div class="product-cards">
-            <div class="p-card">
-                <div class="p-card-icon"><i class="fa-solid fa-fill-drip"></i></div>
-                <h3>Structural Steel</h3>
-                <p>Premium TMT bars and reinforcement rods for high-rise stability.</p>
-                <a href="{% url 'products' %}" class="text-link">Learn More <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-            <div class="p-card">
-                <div class="p-card-icon"><i class="fa-solid fa-trowel-bricks"></i></div>
-                <h3>Masonry Supply</h3>
-                <p>High-grade red bricks, AAC blocks, and fly ash solutions.</p>
-                <a href="{% url 'products' %}" class="text-link">Learn More <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
-            <div class="p-card">
-                <div class="p-card-icon"><i class="fa-solid fa-droplet"></i></div>
-                <h3>Finishing & Paints</h3>
-                <p>Industrial grade paints and weather-proof chemicals.</p>
-                <a href="{% url 'products' %}" class="text-link">Learn More <i class="fa-solid fa-chevron-right"></i></a>
-            </div>
+            {% if categories %}
+                {% for category in categories %}
+                <a href="{% url 'products' %}?category={{ category.id }}" class="p-card">
+                    <div class="p-card-icon">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" loading="lazy">
+                        {% else %}
+                            <i class="fa-solid fa-layer-group"></i>
+                        {% endif %}
+                    </div>
+                    <div class="p-card-meta">Wholesale category</div>
+                    <h3>{{ category.name }}</h3>
+                    <p>Reliable sourcing and project-ready supply support for {{ category.name|lower }} requirements.</p>
+                    <span class="text-link">Browse category <i class="fa-solid fa-chevron-right"></i></span>
+                </a>
+                {% endfor %}
+            {% else %}
+                <a href="{% url 'products' %}" class="p-card">
+                    <div class="p-card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="p-card-meta">Wholesale catalog</div>
+                    <h3>Materials Catalog</h3>
+                    <p>Explore product ranges, raise an enquiry, and request a tailored quote.</p>
+                    <span class="text-link">Browse catalog <i class="fa-solid fa-chevron-right"></i></span>
+                </a>
+            {% endif %}
         </div>
     </div>
 </section>
 
 <section class="process-section">
-    <div class="container">
-        <div class="section-header-center">
-            <h2>Our Seamless Supply Chain</h2>
+    <div class="container process-layout">
+        <div class="process-copy">
+            <span class="accent-text">How it works</span>
+            <h2>A business-first quotation and supply workflow</h2>
+            <p>We keep the experience clear and professional, so buyers can move from requirement to quote without unnecessary friction.</p>
         </div>
         <div class="steps-grid">
             <div class="step-box">
                 <div class="step-num">01</div>
-                <h4>Centralized Enquiry</h4>
-                <p>Submit your material bill of quantities (BOQ) online.</p>
+                <h4>Share your requirement</h4>
+                <p>Send your material requirement, preferred specification, and delivery details.</p>
             </div>
             <div class="step-box">
                 <div class="step-num">02</div>
-                <h4>Volume Pricing</h4>
-                <p>We negotiate with brands to give you bulk discounts.</p>
+                <h4>Receive a business quote</h4>
+                <p>Our team reviews the enquiry and prepares wholesale pricing based on quantity and scope.</p>
             </div>
             <div class="step-box">
                 <div class="step-num">03</div>
-                <h4>On-Site Logistics</h4>
-                <p>Scheduled unloading at your site with verified tracking.</p>
+                <h4>Coordinate supply</h4>
+                <p>Once confirmed, we align sourcing, dispatch, and delivery planning for your order.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="trust-band">
+    <div class="container trust-band-grid">
+        <div class="trust-item">
+            <i class="fa-solid fa-warehouse"></i>
+            <div>
+                <strong>Bulk Procurement</strong>
+                <p>Suitable for contractors, retailers, and project buyers.</p>
+            </div>
+        </div>
+        <div class="trust-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+                <strong>Verified Supply</strong>
+                <p>Focused on dependable business relationships and quality-led sourcing.</p>
+            </div>
+        </div>
+        <div class="trust-item">
+            <i class="fa-solid fa-headset"></i>
+            <div>
+                <strong>Responsive Team</strong>
+                <p>Fast follow-up and practical support throughout the buying process.</p>
             </div>
         </div>
     </div>
@@ -123,11 +165,12 @@
     <div class="container">
         <div class="cta-box">
             <div class="cta-text">
-                <h2>Ready to Optimize Your Construction Costs?</h2>
-                <p>Join over 500 contractors who trust Pashupatinath Marketing for every square foot.</p>
+                <span class="accent-text">Need pricing today?</span>
+                <h2>Talk to our wholesale desk and get your requirement reviewed quickly.</h2>
+                <p>Send your material requirement and our team will get back with the right sourcing and quotation support.</p>
             </div>
             <div class="cta-button-wrapper">
-                <a href="{% url 'contact' %}" class="btn-yellow">Contact Wholesale Desk</a>
+                <a href="{% url 'contact' %}" class="btn-yellow">Start a Quote Request</a>
             </div>
         </div>
     </div>
