@@ -10,9 +10,13 @@
 {% block content %}
 <section class="catalog-interface">
     <div class="container main-flex-container">
-        
         <aside class="catalog-sidebar">
             <div class="sidebar-sticky-wrapper">
+                <div class="sidebar-intro">
+                    <span class="sidebar-tag">Catalog filters</span>
+                    <h2>Browse by category</h2>
+                    <p>Explore available product lines and request pricing directly from any listing.</p>
+                </div>
                 <div class="sidebar-title">
                     <i class="fa-solid fa-filter"></i>
                     <span>Categories</span>
@@ -40,12 +44,12 @@
             <header class="catalog-header">
                 <div class="header-text">
                     <span class="badge-accent">Direct-from-Brand</span>
-                    <h1>Construction <span class="text-gradient">Inventory</span></h1>
-                    <p>Verified wholesale supplies for large-scale infrastructure and retail projects.</p>
+                    <h1>Professional <span class="text-gradient">Product Catalog</span></h1>
+                    <p>Verified wholesale supplies for contractors, retailers, resellers, and project procurement teams.</p>
                 </div>
                 <div class="catalog-stats">
-                    <div class="stat-item"><strong>{{ products.count }}</strong> Items</div>
-                    <div class="stat-item"><i class="fa-solid fa-truck-ramp-box"></i> Pan-India</div>
+                    <div class="stat-item"><strong>{{ products.count }}</strong> Products</div>
+                    <div class="stat-item"><i class="fa-solid fa-truck-ramp-box"></i> Delivery Support</div>
                 </div>
             </header>
 
@@ -90,10 +94,10 @@
                 <div class="empty-state">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     {% if request.GET.q %}
-                    <p>No materials found matching "{{ request.GET.q }}".</p>
+                    <p>No products found matching "{{ request.GET.q }}".</p>
                     <a href="?" class="btn-reset">View All Inventory</a>
                     {% else %}
-                    <p>No materials found in this category.</p>
+                    <p>No products found in this category.</p>
                     <a href="?" class="btn-reset">View All Inventory</a>
                     {% endif %}
                 </div>
