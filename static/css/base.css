@@ -303,6 +303,10 @@ ul {
 .site-nav {
     background: rgba(255, 255, 255, 0.96);
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 90px; /* adjust once */
+    z-index: 1000;
+    
 }
 
 .nav-inner {
@@ -311,6 +315,7 @@ ul {
     justify-content: space-between;
     min-height: 64px;
     gap: 20px;
+    
 }
 
 .nav-links {
