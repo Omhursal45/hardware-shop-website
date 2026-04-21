@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Terms & Conditions | Pashupatinath Marketing{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/legal.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="legal-page">
+    <div class="legal-card">
+        <h1>Terms &amp; Conditions</h1>
+        <p class="legal-intro">General terms that apply to wholesale quotation requests and material supply.</p>
+
+        <div class="legal-section">
+            <h2>Quotation validity</h2>
+            <p>Wholesale quotations are provided based on the information you submit. Quotation terms and validity depend on the final product specifications, availability, and logistics schedule.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Product availability</h2>
+            <p>Stock and availability may change due to sourcing and delivery timelines. If a requested variant is not available, we may suggest suitable alternatives based on project requirements.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Pricing and taxes</h2>
+            <p>Prices are quoted as per applicable rates and taxes (including GST) at the time of quotation. Final invoices are issued based on order confirmation and delivered quantity.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Delivery and logistics</h2>
+            <p>Delivery timelines are confirmed after reviewing your enquiry. Delays may occur due to transport conditions, site readiness, or unforeseen circumstances.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Use of the website</h2>
+            <p>You agree to provide accurate information when requesting a quote. We use your details to respond to your request and coordinate wholesale supply.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2>Contact</h2>
+            <p>For clarification on quotation terms or supply requirements, contact our team via the <a href="{% url 'contact' %}" style="font-weight:800;">Contact</a> page.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
