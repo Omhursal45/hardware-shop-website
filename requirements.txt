@@ -5,3 +5,4 @@ pymysql
 python-dotenv
 openpyxl
 reportlab
+whitenoise
